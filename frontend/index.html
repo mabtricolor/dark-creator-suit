@@ -680,8 +680,22 @@
             try {
                 const resposta = await fetch(URL_API_VOZES);
                 const dados = await resposta.json();
-                if(dados.status === "erro") throw new Error(dados.mensagem);
-                vozesData = dados.vozes;
+                
+                // BLINDAGEM: pode vir lista direta OU objeto { vozes: [...] } / { data: [...] }
+                if (Array.isArray(dados)) {
+                  vozesData = dados;
+                } else if (dados && Array.isArray(dados.vozes)) {
+                  vozesData = dados.vozes;
+                } else if (dados && Array.isArray(dados.data)) {
+                  vozesData = dados.data;
+                } else if (dados && Array.isArray(dados.items)) {
+                  vozesData = dados.items;
+                } else if (dados && Array.isArray(dados.result)) {
+                  vozesData = dados.result;
+                } else {
+                  vozesData = [];
+                }
+                
                 renderizarListaVozes();
             } catch (error) { console.log(error); }
         };
