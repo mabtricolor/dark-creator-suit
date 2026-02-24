@@ -1,0 +1,5 @@
+Regras Específicas para Reddit/Relatos:
+- Faça a tradução/adaptação com o mínimo de cortes. Não resuma a essência.
+- Mantenha Edits/Coments como 'Atualização 1', 'Atualização 2'. Sem datas.
+- Remova nomes de usuários.
+- Oculte partes onde o usuário diz não ser o autor original (OP) ou avisos prévios.
