@@ -1,0 +1,3 @@
+Regras Específicas para Documentário/Mistério/Listas:
+- Crie uma narrativa imersiva e profunda.
+- REGRAS DE LISTA (TOP 10): Se o roteiro for uma lista, NUNCA inicie os tópicos com números soltos ou secos (ex: '10.', '9. O Caso'). Você DEVE usar formato ordinal em texto corrido: 'Em décimo lugar, temos o bizarro caso...', 'Ocupando a nona posição...', 'No oitavo lugar da nossa lista...'. O TTS não entona números secos corretamente.
