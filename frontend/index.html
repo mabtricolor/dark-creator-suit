@@ -1,1 +1,1541 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Creator OS | Dashboard Completo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #10b981; }
+        
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%; background: #a855f7; cursor: pointer; margin-top: -5px; transition: 0.3s; }
+        input[type=range]::-webkit-slider-thumb:hover { box-shadow: 0 0 12px #10b981; background: #10b981; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 6px; cursor: pointer; background: #27272a; border-radius: 4px; border: 1px solid #3f3f46; }
+        
+        .slider-amber::-webkit-slider-thumb { background: #f59e0b; }
+        .slider-amber::-webkit-slider-thumb:hover { box-shadow: 0 0 12px #f59e0b; background: #fbbf24; }
+        
+        .aba-oculta { display: none; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .loader-pulse div { animation: pulse 1.2s infinite; }
+        .loader-pulse div:nth-child(2) { animation-delay: 0.2s; }
+        .loader-pulse div:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes pulse { 0%, 100% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
+    </style>
+</head>
+<body class="bg-[#09090b] text-zinc-300 font-sans antialiased flex h-screen overflow-hidden">
 
+    <aside class="w-64 bg-[#09090b] border-r border-zinc-800 flex flex-col hidden md:flex relative overflow-hidden shrink-0">
+        <div class="absolute top-0 left-0 w-full h-32 bg-purple-600/5 blur-[50px] pointer-events-none"></div>
+        <div class="h-16 flex items-center px-6 border-b border-zinc-800/80 relative z-10">
+            <span class="text-xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-purple-400 to-emerald-400 drop-shadow-sm">
+                <i class="fa-solid fa-moon text-purple-500 mr-1"></i>DARK<span class="text-zinc-500 font-normal">CREATOR</span>
+            </span>
+        </div>
+        
+        <nav class="flex-1 px-3 py-6 space-y-6 overflow-y-auto relative z-10 custom-scrollbar" id="menu_lateral">
+            <div>
+                <p class="px-3 text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-3">Produção</p>
+                <div class="space-y-1">
+                    <button onclick="mudarAba('aba_ideias', this)" class="menu-btn w-full flex items-center gap-3 px-3 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-all text-left text-sm border border-transparent">
+                        <i class="fa-solid fa-lightbulb w-5 text-center transition-colors"></i> Gen Insights
+                    </button>
+                    <button id="btn_menu_miner" onclick="mudarAba('aba_minerador', this)" class="menu-btn w-full flex items-center gap-3 px-3 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-all text-left text-sm border border-transparent">
+                        <i class="fa-solid fa-magnet w-5 text-center transition-colors"></i> Miner
+                    </button>
+                    <button onclick="mudarAba('aba_reescritor', this)" id="btn_menu_reescritor" class="menu-btn w-full flex items-center gap-3 px-3 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-all text-left text-sm border border-transparent">
+                        <i class="fa-solid fa-rotate w-5 text-center transition-colors"></i> Paraphraser
+                    </button>
+                    <button onclick="mudarAba('aba_script', this)" id="btn_menu_script" class="menu-btn w-full flex items-center gap-3 px-3 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-all text-left text-sm border border-transparent">
+                        <i class="fa-solid fa-pen-nib w-5 text-center transition-colors"></i> Script Forge
+                    </button>
+                    <button onclick="mudarAba('aba_voice', this)" id="btn_menu_voice" class="menu-btn w-full flex items-center gap-3 px-3 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-all text-left text-sm border border-transparent">
+                        <i class="fa-solid fa-microphone-lines w-5 text-center transition-colors"></i> Voice Synth
+                    </button>
+                    <button onclick="mudarAba('aba_mixer', this)" id="btn_menu_mixer" class="menu-btn w-full flex items-center gap-3 px-3 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-all text-left text-sm border border-transparent">
+                        <i class="fa-solid fa-sliders text-center w-5 transition-colors"></i> Audio Mixer
+                    </button>
+                    <button onclick="mudarAba('aba_seo', this)" class="menu-btn w-full flex items-center gap-3 px-3 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-all text-left text-sm border border-transparent">
+                        <i class="fa-solid fa-magnifying-glass-chart w-5 text-center transition-colors"></i> Meta & SEO
+                    </button>
+                    <button id="btn_menu_thumb" onclick="mudarAba('aba_thumb', this)" class="menu-btn w-full flex items-center gap-3 px-3 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-all text-left text-sm border border-transparent">
+                        <i class="fa-solid fa-image w-5 text-center transition-colors"></i> Thumb Maker
+                    </button>
+                    <button onclick="mudarAba('aba_legends', this)" id="btn_menu_legends" class="menu-btn w-full flex items-center gap-3 px-3 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-all text-left text-sm border border-transparent">
+                        <i class="fa-solid fa-closed-captioning w-5 text-center transition-colors"></i> Gen Legends
+                    </button>
+                </div>
+            </div>
+            <div>
+                <p class="px-3 text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-3">Plataforma</p>
+                <div class="space-y-1">
+                    <button class="menu-btn w-full flex items-center gap-3 px-3 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-all text-left text-sm border border-transparent"><i class="fa-solid fa-chart-line w-5 text-center transition-colors"></i> Dashboard</button>
+                </div>
+            </div>
+        </nav>
+        <div class="p-4 border-t border-zinc-800 relative z-10">
+            <div class="flex items-center gap-3 bg-[#121214] p-3 rounded-lg border border-zinc-800/80 hover:border-purple-500/30 transition-colors cursor-pointer">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-600 to-emerald-500 flex items-center justify-center text-white font-bold text-sm shadow-inner">MB</div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-white truncate">mailsonpvh</p>
+                    <p class="text-xs text-emerald-400 font-semibold drop-shadow-[0_0_2px_rgba(16,185,129,0.5)]"><i class="fa-solid fa-coins"></i> 3.100 coins</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-screen overflow-y-auto bg-[#0c0c0e] relative custom-scrollbar">
+        <div class="p-6 md:p-10 max-w-7xl mx-auto w-full relative z-10">
+
+            <section id="aba_ideias" class="aba-conteudo aba-oculta">
+                <div class="mb-8 relative z-10">
+                    <div class="flex items-center gap-3 mb-2"><div class="w-10 h-10 rounded-lg bg-yellow-500/10 flex items-center justify-center border border-yellow-500/20"><i class="fa-solid fa-lightbulb text-yellow-400 text-lg"></i></div><h1 class="text-2xl md:text-3xl font-bold text-white">Gen Insights</h1></div>
+                    <p class="text-zinc-400">Descubra temas inexplorados e tendências para o seu próximo vídeo viral.</p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-1 space-y-6">
+                        <div class="bg-[#18181b] border border-zinc-800/80 rounded-xl p-6 shadow-2xl relative overflow-hidden">
+                            <div class="absolute -top-20 -left-20 w-40 h-40 bg-yellow-500/10 rounded-full blur-[60px] pointer-events-none"></div>
+                            <h2 class="text-base font-semibold text-white mb-5 flex items-center gap-2 relative z-10"><i class="fa-solid fa-sliders text-yellow-500"></i> Parâmetros</h2>
+                            <div class="space-y-4 relative z-10">
+                                <div><label class="block text-sm font-medium text-zinc-400 mb-1.5">Nicho ou Tema Principal <span class="text-yellow-500">*</span></label><input type="text" id="ideia_tema" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-4 py-2.5 text-zinc-200 focus:outline-none focus:border-yellow-500 transition-colors shadow-inner" placeholder="Ex: Filosofia Estoica, Terror Real..."></div>
+                                <div><label class="block text-sm font-medium text-zinc-400 mb-1.5">Público-Alvo</label><input type="text" id="ideia_publico" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-4 py-2.5 text-zinc-200 focus:outline-none focus:border-yellow-500 transition-colors shadow-inner" placeholder="Ex: Jovens adultos, Empreendedores..."></div>
+                                <div><label class="block text-sm font-medium text-zinc-400 mb-1.5">Tom do Conteúdo</label><select id="ideia_tom" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg pl-4 py-2.5 text-zinc-200 focus:outline-none focus:border-yellow-500 transition-colors appearance-none shadow-inner cursor-pointer"><option value="Sombrio e Misterioso">Sombrio e Misterioso</option><option value="Curiosidade Intrigante">Curiosidade Intrigante</option><option value="Informativo e Direto">Informativo e Direto</option></select></div>
+                            </div>
+                            <button id="btn_gerar_ideias" onclick="chamarGeradorIdeias()" class="w-full mt-6 bg-yellow-600 hover:bg-yellow-500 text-white font-bold py-3 px-4 rounded-lg shadow-[0_0_15px_rgba(202,138,4,0.3)] transition-all flex items-center justify-center gap-2 group border border-yellow-500/50 relative z-10">
+                                <i class="fa-solid fa-map-location-dot group-hover:scale-110 transition-transform"></i> Mapear Ideias (5 coins)
+                            </button>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-[#18181b] border border-zinc-800/80 rounded-xl p-6 shadow-2xl h-full flex flex-col min-h-[400px] relative overflow-hidden">
+                            <div class="absolute -bottom-20 -right-20 w-40 h-40 bg-yellow-500/5 rounded-full blur-[60px] pointer-events-none"></div>
+                            <h2 class="text-lg font-semibold text-white flex items-center gap-2 border-b border-zinc-800/80 pb-4 mb-4 relative z-10"><i class="fa-solid fa-bolt text-yellow-500"></i> Ideias Mineradas</h2>
+                            <div id="container_ideias" class="flex-1 flex flex-col items-center justify-center text-center relative z-10"><div class="w-16 h-16 rounded-full bg-[#121214] border border-zinc-800 flex items-center justify-center mb-4 shadow-inner"><i class="fa-solid fa-brain text-xl text-zinc-600"></i></div><h3 class="text-sm font-bold text-zinc-500">A tela está em branco</h3></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aba_minerador" class="aba-conteudo aba-oculta">
+                <div class="mb-8 relative z-10">
+                    <div class="flex items-center gap-3 mb-2"><div class="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20"><i class="fa-solid fa-magnet text-indigo-400 text-lg"></i></div><h1 class="text-2xl md:text-3xl font-bold text-white">Data Miner</h1></div>
+                    <p class="text-zinc-400">Arraste dados da internet. Raspe o Reddit, Google News, Wikipédia e a Web em busca de matéria-prima.</p>
+                </div>
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                    <div class="xl:col-span-1 space-y-6 flex flex-col">
+                        <div class="bg-[#18181b] border border-zinc-800/80 rounded-xl p-6 shadow-2xl relative overflow-hidden">
+                            <div class="absolute -top-20 -left-20 w-40 h-40 bg-indigo-500/10 rounded-full blur-[60px] pointer-events-none"></div>
+                            <div class="relative z-10">
+                                <select id="miner_fonte" onchange="trocarFonteMiner()" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg pl-4 py-2.5 text-zinc-200 mb-5 font-bold focus:border-indigo-500 focus:outline-none transition-colors shadow-inner cursor-pointer">
+                                    <option value="reddit">👽 Reddit (Histórias Gringas)</option><option value="news">📰 Google News (Notícias)</option><option value="web">🌍 Deep Web Search</option><option value="wiki">📚 Wikipedia Fatos</option>
+                                </select>
+                                
+                                <div id="campos_reddit" class="space-y-4 block">
+                                    <div>
+                                        <label class="block text-sm font-medium text-zinc-400 mb-1.5">Tema / Assunto</label>
+                                        <input type="text" id="miner_query_reddit" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-4 py-2.5 text-zinc-200 text-sm focus:border-indigo-500 focus:outline-none transition-colors shadow-inner" placeholder="Ex: Cheating wife">
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <div>
+                                            <label class="block text-[10px] font-medium text-zinc-400 mb-1">Subreddit</label>
+                                            <input type="text" id="miner_sub" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-3 py-2 text-zinc-200 text-xs focus:border-indigo-500 focus:outline-none transition-colors shadow-inner" placeholder="Ex: AskReddit">
+                                        </div>
+                                        <div>
+                                            <label class="block text-[10px] font-medium text-zinc-400 mb-1">Mín. Palavras</label>
+                                            <input type="number" id="miner_words" value="500" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-3 py-2 text-zinc-200 text-xs focus:border-indigo-500 focus:outline-none transition-colors shadow-inner">
+                                        </div>
+                                        <div>
+                                            <label class="block text-[10px] font-medium text-zinc-400 mb-1">Score Mín.</label>
+                                            <input type="number" id="miner_score" value="10" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-3 py-2 text-zinc-200 text-xs focus:border-indigo-500 focus:outline-none transition-colors shadow-inner">
+                                        </div>
+                                    </div>
+                                    <label class="flex items-center gap-2 cursor-pointer pt-2"><input type="checkbox" id="miner_sem_atualizacao" class="w-4 h-4 text-indigo-500 rounded bg-zinc-800 border-zinc-700"><span class="text-sm text-zinc-400 font-medium">Sem atualização</span></label>
+                                </div>
+                                
+                                <div id="campos_geral" class="space-y-4 hidden">
+                                    <div>
+                                        <label id="lbl_miner_query_geral" class="block text-sm font-medium text-zinc-400 mb-1.5">Termo de Busca</label>
+                                        <input type="text" id="miner_query_geral" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-4 py-2.5 text-zinc-200 text-sm focus:border-indigo-500 focus:outline-none transition-colors shadow-inner" placeholder="Busca...">
+                                    </div>
+                                    <label class="flex items-center gap-2 cursor-pointer pt-2" id="box_traduzir_web"><input type="checkbox" id="miner_traduzir_web" checked class="w-4 h-4 text-indigo-500 rounded bg-zinc-800 border-zinc-700"><span class="text-sm text-zinc-400 font-medium">Traduzir para PT-BR</span></label>
+                                </div>
+                                
+                                <button id="btn_iniciar_miner" onclick="iniciarMineracao()" class="w-full mt-6 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-lg shadow-[0_0_15px_rgba(99,102,241,0.4)] transition-all flex items-center justify-center gap-2 group border border-indigo-500/50">
+                                    <i class="fa-solid fa-satellite-dish group-hover:scale-110 transition-transform"></i> <span id="txt_btn_miner">Iniciar Varredura</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="xl:col-span-2 space-y-6 flex flex-col h-full">
+                        <div class="bg-[#18181b] border border-zinc-800/80 rounded-xl p-6 shadow-2xl flex-1 flex flex-col relative overflow-hidden">
+                            <div class="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-500/5 rounded-full blur-[60px] pointer-events-none"></div>
+                            <div id="miner_resultados_container" class="flex-1 overflow-y-auto pr-2 custom-scrollbar relative z-10"><div class="flex flex-col items-center justify-center h-full text-center py-20"><div class="w-16 h-16 rounded-full bg-[#121214] border border-zinc-800 flex items-center justify-center mb-4 shadow-inner"><i class="fa-solid fa-layer-group text-xl text-zinc-600"></i></div><h3 class="text-sm font-bold text-zinc-500">Aguardando mineração...</h3></div></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aba_reescritor" class="aba-conteudo aba-oculta">
+                <div class="mb-8 relative z-10">
+                    <div class="flex items-center gap-3 mb-2"><div class="w-10 h-10 rounded-lg bg-pink-500/10 flex items-center justify-center border border-pink-500/20"><i class="fa-solid fa-rotate text-pink-400 text-lg"></i></div><h1 class="text-2xl md:text-3xl font-bold text-white">Text Transmuter</h1></div>
+                    <p class="text-zinc-400">Reescreva textos blindando contra plágio e mantendo a retenção em alta.</p>
+                </div>
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                    <div class="space-y-6 flex flex-col">
+                        <div class="bg-[#18181b] border border-zinc-800/80 rounded-xl p-6 shadow-2xl flex-1 flex flex-col relative overflow-hidden">
+                            <div class="absolute -top-20 -left-20 w-40 h-40 bg-pink-500/10 rounded-full blur-[60px] pointer-events-none"></div>
+                            <div class="flex items-center justify-between mb-4 pb-4 border-b border-zinc-800/80 relative z-10"><h2 class="text-base font-semibold text-white flex items-center gap-2"><i class="fa-solid fa-file-alt text-pink-500"></i> Texto Original</h2><span id="contador_palavras_in" class="text-xs bg-orange-500/20 text-orange-400 px-2.5 py-1 rounded-full font-bold border border-orange-500/30 shadow-inner">0 palavras</span></div>
+                            <div class="flex-1 flex flex-col space-y-5 relative z-10">
+                                <select id="paraphraser_idioma" class="w-full bg-[#121214] border border-zinc-700/80 rounded-lg px-4 py-3 text-zinc-200 focus:border-pink-500 focus:outline-none transition-colors shadow-inner cursor-pointer"><option value="Português (Brasil)">Português (Brasil)</option><option value="Inglês (Estados Unidos)">Inglês (EUA)</option></select>
+                                <textarea id="paraphraser_conteudo" oninput="contarPalavras('paraphraser_conteudo', 'contador_palavras_in')" class="flex-1 w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-4 py-3 text-zinc-200 min-h-[250px] focus:border-pink-500 focus:outline-none transition-colors shadow-inner" placeholder="Cole ou digite seu texto original aqui..."></textarea>
+                            </div>
+                            <button id="btn_gerar_paraphraser" onclick="chamarParaphraser()" class="w-full mt-6 bg-[#831843] hover:bg-[#9d174d] text-white font-bold py-3.5 rounded-lg shadow-[0_0_15px_rgba(236,72,153,0.3)] transition-all flex items-center justify-center gap-2 group border border-pink-500/30 relative z-10">
+                                <i class="fa-solid fa-rotate group-hover:rotate-180 transition-transform duration-500"></i> <span id="txt_btn_transmutar">Transmutar (1 coin)</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="space-y-6 flex flex-col">
+                        <div class="bg-[#18181b] border border-zinc-800/80 rounded-xl p-6 shadow-2xl flex-1 flex flex-col relative overflow-hidden">
+                            <div class="absolute -bottom-20 -right-20 w-40 h-40 bg-emerald-500/5 rounded-full blur-[60px] pointer-events-none"></div>
+                            <div class="flex items-center justify-between mb-4 pb-4 border-b border-zinc-800/80 relative z-10">
+                                <h2 class="text-base font-semibold text-white flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles text-emerald-500"></i> Texto Transmutado</h2>
+                                <span id="contador_palavras_out" class="text-xs bg-emerald-500/20 text-emerald-400 px-2.5 py-1 rounded-full font-bold border border-emerald-500/30 shadow-inner">0 palavras</span>
+                            </div>
+                            <textarea id="paraphraser_resultado" oninput="contarPalavras('paraphraser_resultado', 'contador_palavras_out')" class="flex-1 w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-5 py-4 text-emerald-500/90 text-sm leading-relaxed mb-5 focus:border-emerald-500 focus:outline-none transition-colors shadow-inner relative z-10" placeholder="O texto 100% original aparecerá aqui..."></textarea>
+                            <button onclick="enviarParaphraserParaVoice()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all flex items-center justify-center gap-2 group border border-emerald-500/50 relative z-10">
+                                <i class="fa-solid fa-microphone-lines group-hover:scale-110 transition-transform"></i> Enviar para Voice Synthesizer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aba_script" class="aba-conteudo aba-oculta">
+                <div class="mb-8 relative z-10">
+                    <div class="flex items-center gap-3 mb-2"><div class="w-10 h-10 rounded-lg bg-orange-500/10 flex items-center justify-center border border-orange-500/20"><i class="fa-solid fa-pen-nib text-orange-400 text-lg"></i></div><h1 class="text-2xl md:text-3xl font-bold text-white">Script Forge</h1></div>
+                    <p class="text-zinc-400">Forje roteiros hipnóticos para reter a atenção do espectador a cada segundo.</p>
+                </div>
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                    <div class="space-y-6 flex flex-col">
+                        <div class="bg-[#18181b] border border-zinc-800/80 rounded-xl p-6 shadow-2xl flex-1 flex flex-col relative overflow-hidden">
+                            <div class="absolute -top-20 -left-20 w-40 h-40 bg-orange-500/10 rounded-full blur-[60px] pointer-events-none"></div>
+                            <div class="flex items-center justify-between mb-4 pb-4 border-b border-zinc-800/80 relative z-10"><h2 class="text-base font-semibold text-white flex items-center gap-2"><i class="fa-solid fa-clipboard-list text-orange-500"></i> A Ideia Base</h2><span id="contador_script_in" class="text-xs bg-orange-500/20 text-orange-400 px-2.5 py-1 rounded-full font-bold border border-orange-500/30 shadow-inner">0 palavras</span></div>
+                            <textarea id="script_ideia_base" oninput="contarPalavras('script_ideia_base', 'contador_script_in')" class="flex-1 w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-4 py-3 text-zinc-200 min-h-[120px] focus:border-orange-500 focus:outline-none transition-colors shadow-inner relative z-10" placeholder="Cole aqui o título, o gancho e o resumo da ideia..."></textarea>
+                            <div class="grid grid-cols-2 gap-3 mt-5 relative z-10">
+                                <div><label class="block text-[10px] font-medium text-zinc-400 mb-1">Nome do Canal</label><input type="text" id="script_canal" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-3 py-2 text-zinc-200 text-sm focus:border-orange-500 focus:outline-none transition-colors shadow-inner" placeholder="Opcional"></div>
+                                <div><label class="block text-[10px] font-medium text-zinc-400 mb-1">Formato</label><select id="script_formato" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-3 py-2 text-zinc-200 text-sm focus:border-orange-500 focus:outline-none transition-colors shadow-inner cursor-pointer"><option value="Vídeo Horizontal">Horizontal (16:9)</option><option value="Vídeo Vertical">Vertical (9:16)</option></select></div>
+                                <div><label class="block text-[10px] font-medium text-zinc-400 mb-1">Tamanho Esperado</label><input type="text" id="script_tamanho" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-3 py-2 text-zinc-200 text-sm focus:border-orange-500 focus:outline-none transition-colors shadow-inner" placeholder="Ex: 2500 palavras"></div>
+                                <div><label class="block text-[10px] font-medium text-zinc-400 mb-1">Instruções Extras</label><input type="text" id="script_instrucoes" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-3 py-2 text-zinc-200 text-sm focus:border-orange-500 focus:outline-none transition-colors shadow-inner" placeholder="Ex: Fale rápido"></div>
+                            </div>
+                            <button id="btn_gerar_script" onclick="chamarScriptForge()" class="w-full mt-6 bg-orange-600 hover:bg-orange-500 text-white font-bold py-3.5 rounded-lg shadow-[0_0_15px_rgba(249,115,22,0.4)] transition-all flex items-center justify-center gap-2 group border border-orange-500/50 relative z-10">
+                                <i class="fa-solid fa-fire group-hover:scale-110 transition-transform"></i> Forjar Roteiro (15 coins)
+                            </button>
+                        </div>
+                    </div>
+                    <div class="space-y-6 flex flex-col">
+                        <div class="bg-[#18181b] border border-zinc-800/80 rounded-xl p-6 shadow-2xl flex-1 flex flex-col relative overflow-hidden">
+                            <div class="absolute -bottom-20 -right-20 w-40 h-40 bg-emerald-500/5 rounded-full blur-[60px] pointer-events-none"></div>
+                            <div class="flex items-center justify-between mb-4 pb-4 border-b border-zinc-800/80 relative z-10"><h2 class="text-base font-semibold text-white flex items-center gap-2"><i class="fa-solid fa-check-double text-emerald-500"></i> Auditoria TTS</h2><span id="contador_script_out" class="text-xs bg-emerald-500/20 text-emerald-400 px-2.5 py-1 rounded-full font-bold border border-emerald-500/30 shadow-inner">0 palavras</span></div>
+                            <textarea id="script_final_editavel" oninput="contarPalavras('script_final_editavel', 'contador_script_out')" class="flex-1 w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-5 py-4 text-emerald-500/90 text-sm leading-relaxed mb-5 focus:border-emerald-500 focus:outline-none transition-colors shadow-inner relative z-10" placeholder="Seu roteiro gerado aparecerá aqui..."></textarea>
+                            <button onclick="enviarScriptParaVoice()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all flex items-center justify-center gap-2 group border border-emerald-500/50 relative z-10">
+                                <i class="fa-solid fa-microphone-lines group-hover:scale-110 transition-transform"></i> Enviar para Voice Synthesizer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aba_voice" class="aba-conteudo aba-oculta">
+                <div class="mb-8 relative z-10">
+                    <div class="flex items-center gap-3 mb-2"><div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center border border-purple-500/20"><i class="fa-solid fa-microphone-lines text-purple-400 text-lg"></i></div><h1 class="text-2xl md:text-3xl font-bold text-white">Voice Synthesizer</h1></div>
+                    <p class="text-zinc-400">Sintetize vozes com perfeição utilizando a nossa API Neural.</p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-[#18181b] border border-zinc-800/80 rounded-xl p-6 shadow-2xl relative overflow-hidden">
+                            <div class="absolute -top-20 -left-20 w-40 h-40 bg-purple-500/10 rounded-full blur-[60px] pointer-events-none"></div>
+                            <h2 class="text-base font-semibold text-white mb-5 flex items-center gap-2 relative z-10"><i class="fa-solid fa-database text-purple-500"></i> Dados da Narração</h2>
+                            <div class="space-y-5 relative z-10">
+                                <div>
+                                    <label class="block text-sm font-medium text-zinc-400 mb-1.5 flex justify-between"><span>Texto Formatado <span class="text-purple-500">*</span></span></label>
+                                    <textarea id="texto_voz" rows="8" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-4 py-3 text-zinc-200 focus:outline-none focus:border-purple-500 transition-colors resize-y shadow-inner"></textarea>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-[#121214] p-5 rounded-xl border border-zinc-800/80 shadow-inner">
+                                    <div>
+                                        <div class="mb-3 flex justify-between items-center text-xs text-zinc-400 font-medium"><span class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-purple-500/80"></i> Velocidade</span><span class="bg-zinc-800 px-2 py-0.5 rounded text-purple-400 font-bold border border-zinc-700"><span id="val_v">1.0x</span></span></div>
+                                        <div class="flex items-center gap-3">
+                                            <button onclick="ajustarVelocidade(-0.1)" class="w-7 h-7 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-purple-400 hover:border-purple-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-minus text-[10px]"></i></button>
+                                            <input type="range" id="velocidade" min="0.5" max="2.0" step="0.1" value="1.0" oninput="document.getElementById('val_v').innerText=parseFloat(this.value).toFixed(1) + 'x'" class="flex-1 cursor-pointer">
+                                            <button onclick="ajustarVelocidade(0.1)" class="w-7 h-7 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-purple-400 hover:border-purple-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-plus text-[10px]"></i></button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <div class="mb-3 flex justify-between items-center text-xs text-zinc-400 font-medium"><span class="flex items-center gap-1.5"><i class="fa-solid fa-music text-purple-500/80"></i> Tom (Pitch)</span><span class="bg-zinc-800 px-2 py-0.5 rounded text-purple-400 font-bold border border-zinc-700"><span id="val_p">0Hz</span></span></div>
+                                        <div class="flex items-center gap-3">
+                                            <button onclick="ajustarPitch(-1)" class="w-7 h-7 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-purple-400 hover:border-purple-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-minus text-[10px]"></i></button>
+                                            <input type="range" id="pitch" min="-50" max="50" step="1" value="0" oninput="document.getElementById('val_p').innerText=this.value+'Hz'" class="flex-1 cursor-pointer">
+                                            <button onclick="ajustarPitch(1)" class="w-7 h-7 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-purple-400 hover:border-purple-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-plus text-[10px]"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="btn_gerar_voz" onclick="gerarAudioCompleto()" class="mt-6 w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3.5 px-6 rounded-lg shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all flex items-center justify-center gap-2 group border border-purple-500/50 relative z-10">
+                                <i class="fa-solid fa-wand-magic-sparkles group-hover:scale-110 transition-transform"></i> <span>Sintetizar Voz (380 coins)</span>
+                            </button>
+                            <div id="player_container" class="mt-6 hidden bg-emerald-500/5 p-5 rounded-xl border border-emerald-500/20 shadow-inner relative z-10"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="bg-[#18181b] border border-zinc-800/80 rounded-xl p-6 shadow-2xl h-full flex flex-col relative overflow-hidden">
+                            <div class="absolute -bottom-20 -right-20 w-40 h-40 bg-purple-500/5 rounded-full blur-[60px] pointer-events-none"></div>
+                            <div class="flex items-center justify-between mb-4 border-b border-zinc-800/80 pb-2 relative z-10"><h2 class="text-base font-semibold text-white flex items-center gap-2"><i class="fa-solid fa-users text-purple-500"></i> Atores Neurais</h2></div>
+                            <div id="lista_vozes" class="flex-1 max-h-[500px] overflow-y-auto space-y-3 pr-2 custom-scrollbar relative z-10"><div class="text-center text-zinc-500 py-10"><i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2 text-purple-500"></i><br>Conectando ao servidor...</div></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aba_seo" class="aba-conteudo aba-oculta">
+                <div class="mb-8 relative z-10">
+                    <div class="flex items-center gap-3 mb-2"><div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center border border-blue-500/20"><i class="fa-solid fa-magnifying-glass-chart text-blue-400 text-lg"></i></div><h1 class="text-2xl md:text-3xl font-bold text-white">Meta & SEO</h1></div>
+                    <p class="text-zinc-400">Gere títulos, descrições e tags otimizadas para o algoritmo do YouTube.</p>
+                </div>
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                    <div class="space-y-6 flex flex-col">
+                        <div class="bg-[#18181b] border border-zinc-800/80 rounded-xl p-6 shadow-2xl flex-1 flex flex-col relative overflow-hidden">
+                            <div class="absolute -top-20 -left-20 w-40 h-40 bg-blue-500/10 rounded-full blur-[60px] pointer-events-none"></div>
+                            <h2 class="text-base font-semibold text-white mb-4 flex items-center gap-2 relative z-10 border-b border-zinc-800/80 pb-2"><i class="fa-solid fa-file-code text-blue-500"></i> Contexto do Vídeo</h2>
+                            <div class="relative z-10 flex-1 flex flex-col space-y-4">
+                                <div><label class="block text-[10px] font-medium text-zinc-400 mb-1">Roteiro / Conteúdo Base</label><textarea id="seo_conteudo" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-4 py-3 text-zinc-200 min-h-[140px] focus:border-blue-500 focus:outline-none transition-colors shadow-inner" placeholder="Cole aqui o texto..."></textarea></div>
+                                <div><label class="block text-[10px] font-medium text-zinc-400 mb-1">Palavra-chave Opcional</label><input type="text" id="seo_keyword" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-4 py-2.5 text-zinc-200 text-sm focus:border-blue-500 focus:outline-none transition-colors shadow-inner" placeholder="Ex: Criptomoedas, Mistério..."></div>
+                                <div><label class="block text-[10px] font-medium text-zinc-400 mb-1">Nome do Canal</label><input type="text" id="seo_canal" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-4 py-2.5 text-zinc-200 text-sm focus:border-blue-500 focus:outline-none transition-colors shadow-inner" placeholder="Ex: Zork Imports"></div>
+                            </div>
+                            <button id="btn_gerar_seo" onclick="chamarMetaSEO()" class="w-full mt-6 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3.5 rounded-lg shadow-[0_0_15px_rgba(59,130,246,0.4)] transition-all flex items-center justify-center gap-2 group border border-blue-500/50 relative z-10">
+                                <i class="fa-solid fa-chart-line group-hover:scale-110 transition-transform"></i> Gerar Meta & SEO (8 coins)
+                            </button>
+                        </div>
+                    </div>
+                    <div class="space-y-6 flex flex-col">
+                        <div class="bg-[#18181b] border border-zinc-800/80 rounded-xl p-6 shadow-2xl flex-1 flex flex-col relative overflow-hidden">
+                            <div class="absolute -bottom-20 -right-20 w-40 h-40 bg-blue-500/10 rounded-full blur-[60px] pointer-events-none"></div>
+                            <h2 class="text-base font-semibold text-white mb-4 flex items-center gap-2 relative z-10 border-b border-zinc-800/80 pb-2"><i class="fa-solid fa-rocket text-blue-500"></i> Arquitetura SEO</h2>
+                            <textarea id="seo_resultado" class="flex-1 w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-5 py-4 text-blue-400/90 font-mono text-sm leading-relaxed mb-5 focus:border-blue-500 focus:outline-none transition-colors shadow-inner relative z-10" placeholder="Título, Descrição e Tags aparecerão aqui..."></textarea>
+                            <button onclick="baixarTXTSEO()" class="w-full bg-[#121214] hover:bg-blue-600 text-blue-400 hover:text-white font-bold py-3.5 rounded-lg border border-blue-500/30 transition-colors flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(59,130,246,0.1)] relative z-10 group">
+                                <i class="fa-solid fa-download group-hover:scale-110 transition-transform"></i> Baixar Meta & SEO (.TXT)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aba_thumb" class="aba-conteudo aba-oculta">
+                <div class="mb-8 relative z-10">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-10 h-10 rounded-lg bg-pink-500/10 flex items-center justify-center border border-pink-500/20"><i class="fa-solid fa-image text-pink-400 text-lg"></i></div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-white">Thumb Maker Pro</h1>
+                    </div>
+                    <p class="text-zinc-400">Cole o roteiro completo e defina o texto exato da arte. O Diretor vai gerar os prompts gringos focados em CTR.</p>
+                </div>
+
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                    <div class="xl:col-span-1 space-y-6 flex flex-col">
+                        <div class="bg-[#18181b] border border-zinc-800/80 rounded-xl p-6 shadow-2xl relative overflow-hidden">
+                            <div class="absolute -top-20 -left-20 w-40 h-40 bg-pink-500/10 rounded-full blur-[60px] pointer-events-none"></div>
+                            <h2 class="text-base font-semibold text-white mb-5 flex items-center gap-2 relative z-10 border-b border-zinc-800/80 pb-2"><i class="fa-solid fa-clapperboard text-pink-500"></i> Sobre o Vídeo</h2>
+                            <div class="space-y-4 relative z-10">
+                                <div>
+                                    <label class="block text-sm font-medium text-zinc-400 mb-1.5 flex justify-between"><span>Título da História <span class="text-pink-500">*</span></span> <span class="text-[10px] bg-zinc-800 px-1.5 py-0.5 rounded border border-zinc-700">Âncora de contexto</span></label>
+                                    <input type="text" id="thumb_titulo" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-4 py-2.5 text-zinc-200 focus:outline-none focus:border-pink-500 transition-colors shadow-inner" placeholder="Ex: O Mistério da Casa 7...">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-zinc-400 mb-1.5 flex justify-between"><span>Roteiro Completo <span class="text-pink-500">*</span></span> <span class="text-[10px] bg-zinc-800 px-1.5 py-0.5 rounded border border-zinc-700">Base para IA</span></label>
+                                    <textarea id="thumb_roteiro" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-4 py-3 text-zinc-200 focus:outline-none focus:border-pink-500 transition-colors shadow-inner resize-none min-h-[160px] text-xs" placeholder="Cole o roteiro completo do vídeo aqui. A IA vai ler a história para desenhar a cena mais chocante..."></textarea>
+                                </div>
+
+                                <div class="bg-[#121214] p-4 rounded-lg border border-zinc-800/80 shadow-inner">
+                                    <label class="block text-sm font-bold text-pink-400 mb-2 flex items-center gap-2"><i class="fa-solid fa-font"></i> Texto na Arte (Overlay)</label>
+                                    <input type="text" id="thumb_texto_arte" class="w-full bg-[#09090b] border border-pink-500/30 rounded-lg px-4 py-2.5 text-white font-black text-center tracking-widest focus:outline-none focus:border-pink-500 transition-colors shadow-inner" placeholder="Ex: NÃO OLHE!">
+                                    <p class="text-[9px] text-zinc-500 mt-2 text-center">Este texto será injetado no prompt para a IA escrever na imagem.</p>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-zinc-400 mb-1.5">Estilo Visual da Capa</label>
+                                    <select id="thumb_estilo" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-4 py-2.5 text-zinc-200 focus:outline-none focus:border-pink-500 transition-colors appearance-none shadow-inner cursor-pointer">
+                                        <optgroup label="Realismo & Cinema" class="bg-[#121214] text-pink-400">
+                                            <option value="Fotorealismo Extremo (8k, Detalhado)" class="text-zinc-300">Fotorealismo Extremo (8k)</option>
+                                            <option value="Cinematográfico (Iluminação Dramática, Lente 35mm)" class="text-zinc-300">Cinematográfico Dramático</option>
+                                            <option value="Documentário Investigativo (Câmera de Segurança/Raw)" class="text-zinc-300">Estilo Câmera de Segurança/Raw</option>
+                                        </optgroup>
+                                        <optgroup label="Dark & Horror" class="bg-[#121214] text-pink-400">
+                                            <option value="Dark Fantasy (Sombrio, Gótico, Misterioso)" class="text-zinc-300">Dark Fantasy</option>
+                                            <option value="Horror Psicológico (Tenso, Desconfortável, Sombras)" class="text-zinc-300">Horror Psicológico</option>
+                                            <option value="Macabro e Assustador (Estilo Invocação do Mal)" class="text-zinc-300">Macabro (Filme de Terror)</option>
+                                        </optgroup>
+                                        <optgroup label="YouTube CTR Focus" class="bg-[#121214] text-pink-400">
+                                            <option value="Clickbait Agressivo (Cores vibrantes, Expressões Exageradas)" class="text-zinc-300">Clickbait Agressivo (YouTube)</option>
+                                            <option value="Mistério Intrigante (Silhuetas, Elementos Escondidos, Curiosidade)" class="text-zinc-300">Mistério Intrigante</option>
+                                        </optgroup>
+                                        <optgroup label="Artísticos & Estilizados" class="bg-[#121214] text-pink-400">
+                                            <option value="Animação 3D (Estilo Pixar/Disney Sombria)" class="text-zinc-300">Animação 3D (Pixar Sombria)</option>
+                                            <option value="Cyberpunk Neon (Futurista, Contrastes fortes)" class="text-zinc-300">Cyberpunk Neon</option>
+                                            <option value="Anime Estilo Dark (Alta Qualidade, Mappa Studio)" class="text-zinc-300">Anime Dark (High Quality)</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+                            <button id="btn_gerar_thumb" onclick="chamarThumbMaker()" class="w-full mt-6 bg-pink-700 hover:bg-pink-600 text-white font-bold py-3.5 px-4 rounded-lg shadow-[0_0_15px_rgba(190,24,93,0.4)] transition-all flex items-center justify-center gap-2 group border border-pink-500/50 relative z-10">
+                                <i class="fa-solid fa-palette group-hover:scale-110 transition-transform"></i> <span id="txt_btn_thumb">Gerar Direção de Arte (5 coins)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="xl:col-span-2 space-y-6 flex flex-col h-full">
+                        <div class="bg-[#18181b] border border-zinc-800/80 rounded-xl p-6 shadow-2xl flex-1 flex flex-col relative overflow-hidden min-h-[500px]">
+                            <div class="absolute -bottom-20 -right-20 w-40 h-40 bg-pink-500/5 rounded-full blur-[60px] pointer-events-none"></div>
+
+                            <div class="flex items-center justify-between mb-4 pb-4 border-b border-zinc-800/80 relative z-10">
+                                <h2 class="text-base font-semibold text-white flex items-center gap-2"><i class="fa-solid fa-eye text-pink-500"></i> Caminhos Virais</h2>
+                                <span class="text-xs font-normal text-zinc-500 bg-[#121214] px-2 py-1 rounded border border-zinc-800">Pronto para o Discord/IA</span>
+                            </div>
+                            
+                            <div id="container_thumbs" class="flex-1 overflow-y-auto pr-2 custom-scrollbar space-y-4 relative z-10">
+                                <div class="flex flex-col items-center justify-center h-full text-center py-20">
+                                    <div class="w-16 h-16 rounded-full bg-[#121214] border border-zinc-800 flex items-center justify-center mb-4 shadow-inner"><i class="fa-solid fa-layer-group text-xl text-zinc-600"></i></div>
+                                    <h3 class="text-sm font-bold text-zinc-500">O Diretor de Arte aguarda o roteiro</h3>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aba_legends" class="aba-conteudo block">
+                <div class="mb-8 relative z-10">
+                    <div class="flex items-center gap-3 mb-2"><div class="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20"><i class="fa-solid fa-closed-captioning text-cyan-400 text-lg"></i></div><h1 class="text-2xl md:text-3xl font-bold text-white">Gen Legends</h1></div>
+                    <p class="text-zinc-400">Transcreva áudios e gere legendas perfeitas com Whisper AI.</p>
+                </div>
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                    <div class="space-y-6 flex flex-col">
+                        <div class="bg-[#18181b] border border-zinc-800/80 rounded-xl p-6 shadow-2xl flex-1 flex flex-col relative overflow-hidden">
+                            <div class="absolute -top-20 -left-20 w-40 h-40 bg-cyan-500/5 rounded-full blur-[60px] pointer-events-none"></div>
+
+                            <div class="flex-1 flex flex-col space-y-5 relative z-10">
+                                <div>
+                                    <label class="block text-sm font-medium text-zinc-400 mb-1.5 flex items-center gap-2"><i class="fa-solid fa-language text-cyan-500"></i> Idioma do Áudio</label>
+                                    <select id="legends_idioma" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-4 py-3 text-zinc-200 focus:border-cyan-500 focus:outline-none transition-colors shadow-inner cursor-pointer">
+                                        <option value="auto">Detectar Automaticamente</option><option value="en">Inglês</option><option value="pt">Português</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-zinc-400 mb-1.5 flex items-center gap-2"><i class="fa-solid fa-microchip text-cyan-500"></i> Modelo Whisper</label>
+                                    <select id="legends_modelo" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-4 py-3 text-zinc-200 focus:border-cyan-500 focus:outline-none transition-colors shadow-inner cursor-pointer">
+                                        <option value="base">Base (Rápido)</option><option value="small">Small (Preciso)</option>
+                                    </select>
+                                </div>
+                                <div class="flex-1 flex flex-col justify-center mt-2">
+                                    <input type="file" id="arquivo_audio_legends" accept=".mp3,.wav,.m4a,.mp4" class="hidden" onchange="mostrarNomeAudio(event)">
+                                    <div id="dropzone_legends" onclick="document.getElementById('arquivo_audio_legends').click()" class="border-2 border-dashed border-zinc-700 hover:border-cyan-400 hover:bg-cyan-500/5 hover:shadow-[0_0_20px_rgba(34,211,238,0.1)] rounded-xl p-10 text-center cursor-pointer transition-all duration-300 bg-[#09090b] flex flex-col items-center justify-center relative group min-h-[160px] shadow-inner">
+                                        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl pointer-events-none"></div>
+                                        <i class="fa-solid fa-cloud-arrow-up text-4xl text-zinc-500 group-hover:text-cyan-400 group-hover:-translate-y-2 transition-all duration-300 mb-3 drop-shadow-md" id="icone_upload_legends"></i>
+                                        <p class="text-zinc-300 font-bold mb-1 group-hover:text-white transition-colors" id="nome_arquivo_legends">Clique ou Arraste o Áudio</p>
+                                        <p class="text-[10px] text-zinc-500 font-medium mt-1">MP3, WAV, M4A ou MP4</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="btn_gerar_legends" onclick="chamarGenLegends()" class="w-full mt-6 bg-cyan-700 hover:bg-cyan-600 text-white font-bold py-3.5 px-4 rounded-lg shadow-[0_0_15px_rgba(14,116,144,0.4)] transition-all flex items-center justify-center gap-2 group border border-cyan-500/50 relative z-10">
+                                <i class="fa-solid fa-closed-captioning group-hover:scale-110 transition-transform"></i> <span id="txt_btn_legends">Transcrever Áudio (20 coins)</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="space-y-6 flex flex-col">
+                        <div class="bg-[#18181b] border border-zinc-800/80 rounded-xl p-6 shadow-2xl flex-1 flex flex-col relative overflow-hidden">
+                            <div class="absolute -bottom-20 -right-20 w-40 h-40 bg-pink-500/5 rounded-full blur-[60px] pointer-events-none"></div>
+
+                            <div class="flex items-center justify-between mb-3 relative z-10">
+                                <label class="block text-sm font-bold text-cyan-400 flex items-center gap-2"><i class="fa-solid fa-align-left"></i> Transcrição Bruta</label>
+                                <button onclick="baixarTXTLegends()" class="text-xs bg-cyan-900/30 hover:bg-cyan-600 text-cyan-400 hover:text-white px-3 py-1.5 rounded font-bold transition-colors border border-cyan-500/30 flex items-center gap-2"><i class="fa-solid fa-download"></i> .TXT</button>
+                            </div>
+                            <textarea id="legends_txt_resultado" class="flex-1 w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-4 py-3 text-zinc-200 text-sm mb-5 focus:border-cyan-500 focus:outline-none transition-colors shadow-inner relative z-10" placeholder="O texto extraído do áudio aparecerá aqui..."></textarea>
+                            
+                            <div class="flex items-center justify-between mb-3 relative z-10">
+                                <label class="block text-sm font-bold text-emerald-400 flex items-center gap-2"><i class="fa-regular fa-clock"></i> Arquivo de Legenda</label>
+                                <button onclick="baixarSRTLegends()" class="text-xs bg-emerald-900/30 hover:bg-emerald-600 text-emerald-400 hover:text-white px-3 py-1.5 rounded font-bold transition-colors border border-emerald-500/30 flex items-center gap-2"><i class="fa-solid fa-download"></i> .SRT</button>
+                            </div>
+                            <textarea id="legends_srt_resultado" class="w-full bg-[#09090b] border border-zinc-700/80 rounded-lg px-4 py-3 text-emerald-500/80 text-xs h-28 mb-5 font-mono focus:border-emerald-500 focus:outline-none transition-colors shadow-inner relative z-10" readonly placeholder="00:00:00,000 --> 00:00:03,000&#10;O tempo e a fala exata aparecerão aqui..."></textarea>
+                            
+                            <button onclick="enviarLegendsParaParaphraser()" class="w-full bg-pink-700 hover:bg-pink-600 text-white font-bold py-3.5 px-4 rounded-lg shadow-[0_0_15px_rgba(190,24,93,0.4)] transition-all flex items-center justify-center gap-2 group border border-pink-500/50 relative z-10">
+                                <i class="fa-solid fa-wand-magic-sparkles group-hover:scale-110 transition-transform"></i> Enviar para o Paraphraser
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aba_mixer" class="aba-conteudo aba-oculta">
+                <div class="mb-8 relative z-10">
+                    <div class="flex items-center gap-3 mb-2"><div class="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center border border-amber-500/20"><i class="fa-solid fa-sliders text-amber-400 text-lg"></i></div><h1 class="text-2xl md:text-3xl font-bold text-white">Audio Mixer Pro</h1></div>
+                    <p class="text-zinc-400">Misture narração com música de fundo aplicando efeitos de estúdio.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                    <div class="space-y-6 flex flex-col">
+                        <div class="bg-[#18181b] border border-zinc-800/80 rounded-xl p-6 shadow-2xl flex-1 flex flex-col relative overflow-hidden">
+                            <div class="absolute -top-20 -left-20 w-40 h-40 bg-amber-500/5 rounded-full blur-[60px] pointer-events-none"></div>
+                            
+                            <div class="flex justify-between items-center mb-5 relative z-10">
+                                <h2 class="text-base font-semibold text-white flex items-center gap-2"><i class="fa-solid fa-layer-group text-amber-500"></i> Tracks de Áudio</h2>
+                                <select id="mixer_preset" onchange="aplicarPresetMixer()" class="bg-[#121214] text-amber-400 border border-amber-500/20 text-xs px-3 py-1.5 rounded focus:outline-none focus:border-amber-500 transition-colors cursor-pointer">
+                                    <option value="manual">Modo Manual</option>
+                                    <option value="narrador_dark" selected>Preset: Narrador Dark</option>
+                                    <option value="podcast">Preset: Podcast</option>
+                                </select>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4 mb-6 relative z-10">
+                                <div id="dropzone_mixer_voz" onclick="document.getElementById('arquivo_mixer_voz').click()" class="bg-[#09090b] border-2 border-dashed border-zinc-700 p-6 text-center rounded-xl cursor-pointer hover:border-amber-400 hover:bg-amber-500/5 hover:shadow-[0_0_15px_rgba(245,158,11,0.1)] transition-all duration-300 group relative flex flex-col items-center justify-center min-h-[140px] shadow-inner">
+                                    <input type="file" id="arquivo_mixer_voz" accept=".mp3,.wav,.m4a" class="hidden" onchange="mostrarNomeMixer(event, 'nome_mixer_voz', 'icone_mixer_voz')">
+                                    <i class="fa-solid fa-microphone text-3xl text-zinc-600 group-hover:text-amber-400 group-hover:-translate-y-1 transition-all duration-300 drop-shadow-md mb-2" id="icone_mixer_voz"></i>
+                                    <p class="text-sm font-bold text-zinc-400 truncate max-w-[140px] group-hover:text-amber-100 transition-colors" id="nome_mixer_voz">Voz Principal</p>
+                                    <p class="text-[10px] text-zinc-600 font-medium mt-1">Arrastar Arquivo</p>
+                                </div>
+                                <div id="dropzone_mixer_bg" onclick="document.getElementById('arquivo_mixer_bg').click()" class="bg-[#09090b] border-2 border-dashed border-zinc-700 p-6 text-center rounded-xl cursor-pointer hover:border-amber-400 hover:bg-amber-500/5 hover:shadow-[0_0_15px_rgba(245,158,11,0.1)] transition-all duration-300 group relative flex flex-col items-center justify-center min-h-[140px] shadow-inner">
+                                    <input type="file" id="arquivo_mixer_bg" accept=".mp3,.wav,.m4a" class="hidden" onchange="mostrarNomeMixer(event, 'nome_mixer_bg', 'icone_mixer_bg')">
+                                    <i class="fa-solid fa-music text-3xl text-zinc-600 group-hover:text-amber-400 group-hover:-translate-y-1 transition-all duration-300 drop-shadow-md mb-2" id="icone_mixer_bg"></i>
+                                    <p class="text-sm font-bold text-zinc-400 truncate max-w-[140px] group-hover:text-amber-100 transition-colors" id="nome_mixer_bg">Música de Fundo</p>
+                                    <p class="text-[10px] text-zinc-600 font-medium mt-1">Arrastar Arquivo</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-[#121214] p-5 rounded-xl border border-zinc-800/80 shadow-inner relative z-10 space-y-5">
+                                <div>
+                                    <div class="mb-2 flex justify-between items-center text-xs text-zinc-400 font-medium"><span><i class="fa-solid fa-volume-high text-amber-500/80 mr-1"></i> Volume da Voz</span><span class="bg-zinc-800 px-2 py-0.5 rounded text-amber-400 font-bold border border-zinc-700"><span id="lbl_mixer_vol_voz">0</span> dB</span></div>
+                                    <div class="flex items-center gap-3">
+                                        <button onclick="ajustarSliderMixer('mixer_vol_voz', -1, 'lbl_mixer_vol_voz')" class="w-7 h-7 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 hover:bg-zinc-700 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-minus text-[10px]"></i></button>
+                                        <input type="range" id="mixer_vol_voz" min="-20" max="10" step="1" value="0" oninput="document.getElementById('lbl_mixer_vol_voz').innerText=this.value" class="flex-1 slider-amber cursor-pointer">
+                                        <button onclick="ajustarSliderMixer('mixer_vol_voz', 1, 'lbl_mixer_vol_voz')" class="w-7 h-7 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 hover:bg-zinc-700 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-plus text-[10px]"></i></button>
+                                    </div>
+                                </div>
+                                
+                                <div class="pt-4 border-t border-zinc-800/80">
+                                    <div class="mb-2 flex justify-between items-center text-xs text-zinc-400 font-medium"><span><i class="fa-solid fa-volume-low text-amber-500/80 mr-1"></i> Volume da Música</span><span class="bg-zinc-800 px-2 py-0.5 rounded text-amber-400 font-bold border border-zinc-700"><span id="lbl_mixer_vol_bg">-18</span> dB</span></div>
+                                    <div class="flex items-center gap-3">
+                                        <button onclick="ajustarSliderMixer('mixer_vol_bg', -1, 'lbl_mixer_vol_bg')" class="w-7 h-7 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 hover:bg-zinc-700 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-minus text-[10px]"></i></button>
+                                        <input type="range" id="mixer_vol_bg" min="-40" max="0" step="1" value="-18" oninput="document.getElementById('lbl_mixer_vol_bg').innerText=this.value" class="flex-1 slider-amber cursor-pointer">
+                                        <button onclick="ajustarSliderMixer('mixer_vol_bg', 1, 'lbl_mixer_vol_bg')" class="w-7 h-7 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 hover:bg-zinc-700 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-plus text-[10px]"></i></button>
+                                    </div>
+                                </div>
+
+                                <div class="pt-3 bg-[#09090b] -mx-5 px-5 pb-5 -mb-5 rounded-b-xl border-t border-zinc-800/80">
+                                    <div class="mb-3 flex items-center gap-2"><input type="checkbox" id="mixer_ducking" checked class="w-4 h-4 text-amber-500 rounded focus:ring-amber-500/50 bg-zinc-800 border-zinc-700 cursor-pointer"><label for="mixer_ducking" class="text-xs font-bold text-amber-400 cursor-pointer">Auto-Ducking (Abaixa a música quando a voz fala)</label></div>
+                                    <div class="flex justify-between items-center text-[10px] text-zinc-500 font-medium mb-2"><span>Intensidade do Ducking</span><span class="text-zinc-400"><span id="lbl_mixer_duck_amount">-14</span> dB</span></div>
+                                    <div class="flex items-center gap-2">
+                                        <button onclick="ajustarSliderMixer('mixer_duck_amount', -1, 'lbl_mixer_duck_amount')" class="w-6 h-6 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-minus text-[8px]"></i></button>
+                                        <input type="range" id="mixer_duck_amount" min="-30" max="-3" step="1" value="-14" oninput="document.getElementById('lbl_mixer_duck_amount').innerText=this.value" class="flex-1 slider-amber cursor-pointer">
+                                        <button onclick="ajustarSliderMixer('mixer_duck_amount', 1, 'lbl_mixer_duck_amount')" class="w-6 h-6 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-plus text-[8px]"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-6 flex flex-col h-full">
+                        <div class="bg-[#18181b] border border-zinc-800/80 rounded-xl p-6 shadow-2xl flex-1 flex flex-col relative overflow-hidden">
+                            <h2 class="text-base font-semibold text-white mb-5 flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i> Rack de Efeitos (Master)</h2>
+                            
+                            <div class="space-y-4 pr-2 custom-scrollbar overflow-y-auto max-h-[360px]">
+                                <div class="bg-[#121214] p-4 rounded-xl border border-zinc-800/50 shadow-inner">
+                                    <span class="text-xs text-amber-400 font-bold block mb-4 flex items-center gap-2 border-b border-zinc-800/80 pb-2"><i class="fa-solid fa-wave-square"></i> Equalizador Vocal</span>
+                                    
+                                    <div class="mb-3">
+                                        <div class="flex justify-between items-center text-[10px] text-zinc-400 font-medium mb-1.5"><span>Frequências Graves (Bass)</span><span class="text-amber-500/80 bg-zinc-800 px-1.5 rounded"><span id="lbl_eq_bass">3</span> dB</span></div>
+                                        <div class="flex items-center gap-2">
+                                            <button onclick="ajustarSliderMixer('mixer_eq_bass', -1, 'lbl_eq_bass')" class="w-6 h-6 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-minus text-[8px]"></i></button>
+                                            <input type="range" id="mixer_eq_bass" min="0" max="15" step="1" value="3" oninput="document.getElementById('lbl_eq_bass').innerText=this.value" class="flex-1 slider-amber cursor-pointer">
+                                            <button onclick="ajustarSliderMixer('mixer_eq_bass', 1, 'lbl_eq_bass')" class="w-6 h-6 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-plus text-[8px]"></i></button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <div class="flex justify-between items-center text-[10px] text-zinc-400 font-medium mb-1.5"><span>Frequências Agudas (Treble)</span><span class="text-amber-500/80 bg-zinc-800 px-1.5 rounded"><span id="lbl_eq_treble">2</span> dB</span></div>
+                                        <div class="flex items-center gap-2">
+                                            <button onclick="ajustarSliderMixer('mixer_eq_treble', -1, 'lbl_eq_treble')" class="w-6 h-6 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-minus text-[8px]"></i></button>
+                                            <input type="range" id="mixer_eq_treble" min="0" max="15" step="1" value="2" oninput="document.getElementById('lbl_eq_treble').innerText=this.value" class="flex-1 slider-amber cursor-pointer">
+                                            <button onclick="ajustarSliderMixer('mixer_eq_treble', 1, 'lbl_eq_treble')" class="w-6 h-6 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-plus text-[8px]"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-[#121214] p-4 rounded-xl border border-zinc-800/50 shadow-inner">
+                                    <div class="flex justify-between items-center mb-4 border-b border-zinc-800/80 pb-2">
+                                        <label for="mixer_compressor" class="text-xs font-bold text-amber-400 flex items-center gap-2 cursor-pointer"><i class="fa-solid fa-compress"></i> Compressor Dinâmico</label>
+                                        <input type="checkbox" id="mixer_compressor" checked class="w-4 h-4 text-amber-500 rounded focus:ring-amber-500/50 bg-zinc-800 border-zinc-700 cursor-pointer">
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <div class="flex justify-between items-center text-[10px] text-zinc-400 font-medium mb-1.5"><span>Threshold</span><span class="text-zinc-500"><span id="lbl_comp_th">-18</span> dB</span></div>
+                                            <div class="flex items-center gap-2">
+                                                <button onclick="ajustarSliderMixer('mixer_comp_th', -1, 'lbl_comp_th')" class="w-5 h-5 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-minus text-[8px]"></i></button>
+                                                <input type="range" id="mixer_comp_th" min="-40" max="-5" step="1" value="-18" oninput="document.getElementById('lbl_comp_th').innerText=this.value" class="flex-1 slider-amber cursor-pointer">
+                                                <button onclick="ajustarSliderMixer('mixer_comp_th', 1, 'lbl_comp_th')" class="w-5 h-5 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-plus text-[8px]"></i></button>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="flex justify-between items-center text-[10px] text-zinc-400 font-medium mb-1.5"><span>Ratio</span><span class="text-zinc-500"><span id="lbl_comp_ratio">4.0</span>:1</span></div>
+                                            <div class="flex items-center gap-2">
+                                                <button onclick="ajustarSliderMixer('mixer_comp_ratio', -1, 'lbl_comp_ratio')" class="w-5 h-5 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-minus text-[8px]"></i></button>
+                                                <input type="range" id="mixer_comp_ratio" min="1" max="8" step="0.5" value="4" oninput="document.getElementById('lbl_comp_ratio').innerText=parseFloat(this.value).toFixed(1)" class="flex-1 slider-amber cursor-pointer">
+                                                <button onclick="ajustarSliderMixer('mixer_comp_ratio', 1, 'lbl_comp_ratio')" class="w-5 h-5 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-plus text-[8px]"></i></button>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="flex justify-between items-center text-[10px] text-zinc-400 font-medium mb-1.5"><span>Makeup Gain</span><span class="text-zinc-500"><span id="lbl_comp_makeup">4</span> dB</span></div>
+                                            <div class="flex items-center gap-2">
+                                                <button onclick="ajustarSliderMixer('mixer_comp_makeup', -1, 'lbl_comp_makeup')" class="w-5 h-5 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-minus text-[8px]"></i></button>
+                                                <input type="range" id="mixer_comp_makeup" min="0" max="10" step="1" value="4" oninput="document.getElementById('lbl_comp_makeup').innerText=this.value" class="flex-1 slider-amber cursor-pointer">
+                                                <button onclick="ajustarSliderMixer('mixer_comp_makeup', 1, 'lbl_comp_makeup')" class="w-5 h-5 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-plus text-[8px]"></i></button>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="flex justify-between items-center text-[10px] text-zinc-400 font-medium mb-1.5"><span>Limiter Teto</span><span class="text-zinc-500"><span id="lbl_limiter_ceil">-1.0</span> dB</span></div>
+                                            <div class="flex items-center gap-2">
+                                                <button onclick="ajustarSliderMixer('mixer_limiter_ceil', -1, 'lbl_limiter_ceil')" class="w-5 h-5 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-minus text-[8px]"></i></button>
+                                                <input type="range" id="mixer_limiter_ceil" min="-6" max="0" step="0.5" value="-1" oninput="document.getElementById('lbl_limiter_ceil').innerText=parseFloat(this.value).toFixed(1)" class="flex-1 slider-amber cursor-pointer">
+                                                <button onclick="ajustarSliderMixer('mixer_limiter_ceil', 1, 'lbl_limiter_ceil')" class="w-5 h-5 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-plus text-[8px]"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-[#121214] p-4 rounded-xl border border-zinc-800/50 shadow-inner">
+                                    <div class="flex justify-between items-center mb-4 border-b border-zinc-800/80 pb-2">
+                                        <span class="text-xs font-bold text-amber-400 flex items-center gap-2"><i class="fa-solid fa-scissors"></i> Fades & Silence</span>
+                                        <label class="text-[10px] flex items-center gap-1.5 text-zinc-300 cursor-pointer"><input type="checkbox" id="mixer_trim" checked class="w-3.5 h-3.5 text-amber-500 rounded bg-zinc-800 border-zinc-700 cursor-pointer"> Cortar Silêncio Inicial/Final</label>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <div class="flex justify-between items-center text-[10px] text-zinc-400 font-medium mb-1.5"><span>Fade IN (Música)</span><span class="text-zinc-500"><span id="lbl_fade_in">100</span> ms</span></div>
+                                            <div class="flex items-center gap-2">
+                                                <button onclick="ajustarSliderMixer('mixer_fade_in', -1, 'lbl_fade_in')" class="w-5 h-5 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-minus text-[8px]"></i></button>
+                                                <input type="range" id="mixer_fade_in" min="0" max="3000" step="100" value="100" oninput="document.getElementById('lbl_fade_in').innerText=this.value" class="flex-1 slider-amber cursor-pointer">
+                                                <button onclick="ajustarSliderMixer('mixer_fade_in', 1, 'lbl_fade_in')" class="w-5 h-5 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-plus text-[8px]"></i></button>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="flex justify-between items-center text-[10px] text-zinc-400 font-medium mb-1.5"><span>Fade OUT (Música)</span><span class="text-zinc-500"><span id="lbl_fade_out">2500</span> ms</span></div>
+                                            <div class="flex items-center gap-2">
+                                                <button onclick="ajustarSliderMixer('mixer_fade_out', -1, 'lbl_fade_out')" class="w-5 h-5 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-minus text-[8px]"></i></button>
+                                                <input type="range" id="mixer_fade_out" min="0" max="5000" step="100" value="2500" oninput="document.getElementById('lbl_fade_out').innerText=this.value" class="flex-1 slider-amber cursor-pointer">
+                                                <button onclick="ajustarSliderMixer('mixer_fade_out', 1, 'lbl_fade_out')" class="w-5 h-5 flex-shrink-0 rounded bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-amber-400 hover:border-amber-500 transition-colors flex items-center justify-center focus:outline-none"><i class="fa-solid fa-plus text-[8px]"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button id="btn_gerar_mixer" onclick="chamarAudioMixer()" class="w-full mt-5 bg-amber-600 hover:bg-amber-500 text-white font-bold py-3.5 rounded-lg shadow-[0_0_15px_rgba(245,158,11,0.4)] transition-all flex items-center justify-center gap-2 group border border-amber-500/50">
+                                <i class="fa-solid fa-sliders group-hover:scale-110 transition-transform"></i> <span id="txt_btn_mixer">Iniciar Masterização (10 coins)</span>
+                            </button>
+                            
+                            <div id="mixer_resultados_container" class="mt-4 bg-[#09090b] border border-amber-500/30 p-4 rounded-lg hidden shadow-inner relative z-10"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <audio id="player_preview" class="hidden"></audio>
+
+    <script>
+        // GLOBALS
+        const URL_API_VOZES = "https://tts.zappclube.com.br/vozes";
+        const URL_API_DIRETA = "https://tts.zappclube.com.br/gerar_narracao"; 
+        let ideiasGlobais = []; 
+        let srtGlobal = ""; 
+        let vozSelecionada = "pt-BR-AntonioNeural"; 
+        let vozesData = [];
+        let arquivoVozMixer = null;
+        let arquivoBgMixer = null;
+
+        window.onload = async function() {
+            mudarAba('aba_legends', document.getElementById('btn_menu_legends'));
+            aplicarPresetMixer();
+            configurarDragAndDropLegends();
+            configurarDragAndDropMixer('dropzone_mixer_voz', 'arquivo_mixer_voz', 'nome_mixer_voz', 'icone_mixer_voz');
+            configurarDragAndDropMixer('dropzone_mixer_bg', 'arquivo_mixer_bg', 'nome_mixer_bg', 'icone_mixer_bg');
+            
+            try {
+                const resposta = await fetch(URL_API_VOZES);
+                const dados = await resposta.json();
+                if(dados.status === "erro") throw new Error(dados.mensagem);
+                vozesData = dados.vozes;
+                renderizarListaVozes();
+            } catch (error) { console.log(error); }
+        };
+
+        // ==========================================
+        // DRAG AND DROP - GEN LEGENDS & MIXER
+        // ==========================================
+        function configurarDragAndDropLegends() {
+            const dropzone = document.getElementById('dropzone_legends');
+            const fileInput = document.getElementById('arquivo_audio_legends');
+            if(!dropzone) return;
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(ev => dropzone.addEventListener(ev, preventDefaults, false));
+            function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+            ['dragenter', 'dragover'].forEach(ev => {
+                dropzone.addEventListener(ev, () => {
+                    dropzone.classList.add('border-cyan-400', 'bg-cyan-500/10', 'scale-[1.02]');
+                    dropzone.querySelector('i').classList.add('text-cyan-400', '-translate-y-2');
+                }, false);
+            });
+            ['dragleave', 'drop'].forEach(ev => {
+                dropzone.addEventListener(ev, () => {
+                    dropzone.classList.remove('border-cyan-400', 'bg-cyan-500/10', 'scale-[1.02]');
+                    dropzone.querySelector('i').classList.remove('text-cyan-400', '-translate-y-2');
+                }, false);
+            });
+            dropzone.addEventListener('drop', (e) => {
+                let files = e.dataTransfer.files;
+                if(files.length > 0) { fileInput.files = files; mostrarNomeAudio({target: fileInput}); }
+            }, false);
+        }
+
+        function configurarDragAndDropMixer(dropzoneId, inputId, labelId, iconId) {
+            const dropzone = document.getElementById(dropzoneId);
+            const fileInput = document.getElementById(inputId);
+            if(!dropzone) return;
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(ev => dropzone.addEventListener(ev, preventDefaults, false));
+            function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+            ['dragenter', 'dragover'].forEach(ev => {
+                dropzone.addEventListener(ev, () => {
+                    dropzone.classList.add('border-amber-400', 'bg-amber-500/10', 'shadow-[0_0_15px_rgba(245,158,11,0.2)]');
+                    dropzone.querySelector('i').classList.add('text-amber-400', '-translate-y-1');
+                }, false);
+            });
+            ['dragleave', 'drop'].forEach(ev => {
+                dropzone.addEventListener(ev, () => {
+                    dropzone.classList.remove('border-amber-400', 'bg-amber-500/10', 'shadow-[0_0_15px_rgba(245,158,11,0.2)]');
+                    dropzone.querySelector('i').classList.remove('text-amber-400', '-translate-y-1');
+                }, false);
+            });
+            dropzone.addEventListener('drop', (e) => {
+                let files = e.dataTransfer.files;
+                if(files.length > 0) { fileInput.files = files; mostrarNomeMixer({target: fileInput}, labelId, iconId); }
+            }, false);
+        }
+
+        // ==========================================
+        // AJUSTE FINO (SLIDERS COM + e -)
+        // ==========================================
+        function ajustarVelocidade(delta) {
+            const slider = document.getElementById('velocidade');
+            let newVal = parseFloat(slider.value) + delta;
+            if(newVal > 2.0) newVal = 2.0;
+            if(newVal < 0.5) newVal = 0.5;
+            slider.value = newVal;
+            document.getElementById('val_v').innerText = newVal.toFixed(1) + 'x';
+        }
+
+        function ajustarPitch(delta) {
+            const slider = document.getElementById('pitch');
+            let newVal = parseInt(slider.value) + delta;
+            if(newVal > 50) newVal = 50;
+            if(newVal < -50) newVal = -50;
+            slider.value = newVal;
+            document.getElementById('val_p').innerText = newVal + 'Hz';
+        }
+
+        function ajustarSliderMixer(sliderId, direction, lblId) {
+            const slider = document.getElementById(sliderId);
+            let step = parseFloat(slider.step);
+            let val = parseFloat(slider.value);
+            
+            let newVal = val + (direction * step);
+            let max = parseFloat(slider.max);
+            let min = parseFloat(slider.min);
+            
+            if (newVal > max) newVal = max;
+            if (newVal < min) newVal = min;
+            
+            if (step % 1 !== 0) {
+                slider.value = newVal.toFixed(1);
+                document.getElementById(lblId).innerText = newVal.toFixed(1);
+            } else {
+                slider.value = Math.round(newVal);
+                document.getElementById(lblId).innerText = Math.round(newVal);
+            }
+        }
+
+        // ==========================================
+        // UI MUDANÇA DE ABAS
+        // ==========================================
+        function mudarAba(idAbaDestino, btnClicado) {
+            document.querySelectorAll('.aba-conteudo').forEach(aba => { 
+                aba.classList.add('aba-oculta'); 
+                aba.classList.remove('block'); 
+            });
+            document.getElementById(idAbaDestino).classList.remove('aba-oculta'); 
+            document.getElementById(idAbaDestino).classList.add('block');
+            
+            document.querySelectorAll('.menu-btn').forEach(btn => {
+                btn.className = "menu-btn w-full flex items-center gap-3 px-3 py-2.5 text-zinc-400 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-all text-left text-sm border border-transparent";
+                btn.querySelector('i').className = btn.querySelector('i').className.replace(/text-purple-400|drop-shadow-\[0_0_5px_rgba\(168,85,247,0\.8\)\]|text-cyan-400|drop-shadow-\[0_0_5px_rgba\(34,211,238,0\.8\)\]|text-amber-400|drop-shadow-\[0_0_5px_rgba\(245,158,11,0\.8\)\]|text-orange-400|drop-shadow-\[0_0_5px_rgba\(249,115,22,0\.8\)\]|text-pink-400|drop-shadow-\[0_0_5px_rgba\(236,72,153,0\.8\)\]|text-indigo-400|drop-shadow-\[0_0_5px_rgba\(99,102,241,0\.8\)\]|text-yellow-400|drop-shadow-\[0_0_5px_rgba\(250,204,21,0\.8\)\]|text-blue-400|drop-shadow-\[0_0_5px_rgba\(96,165,250,0\.8\)\]/g, '').trim();
+            });
+            
+            if(btnClicado) {
+                let colorClass = 'text-zinc-400';
+                let shadowClass = '';
+                let borderClass = 'border-transparent';
+                
+                if(idAbaDestino === 'aba_ideias') { colorClass = 'text-yellow-400 drop-shadow-[0_0_5px_rgba(250,204,21,0.8)]'; borderClass = 'border-yellow-500/20'; shadowClass = 'shadow-[0_0_15px_rgba(250,204,21,0.1)]'; }
+                if(idAbaDestino === 'aba_minerador') { colorClass = 'text-indigo-400 drop-shadow-[0_0_5px_rgba(99,102,241,0.8)]'; borderClass = 'border-indigo-500/20'; shadowClass = 'shadow-[0_0_15px_rgba(99,102,241,0.1)]'; }
+                if(idAbaDestino === 'aba_reescritor') { colorClass = 'text-pink-400 drop-shadow-[0_0_5px_rgba(236,72,153,0.8)]'; borderClass = 'border-pink-500/20'; shadowClass = 'shadow-[0_0_15px_rgba(236,72,153,0.1)]'; }
+                if(idAbaDestino === 'aba_script') { colorClass = 'text-orange-400 drop-shadow-[0_0_5px_rgba(249,115,22,0.8)]'; borderClass = 'border-orange-500/20'; shadowClass = 'shadow-[0_0_15px_rgba(249,115,22,0.1)]'; }
+                if(idAbaDestino === 'aba_voice') { colorClass = 'text-purple-400 drop-shadow-[0_0_5px_rgba(168,85,247,0.8)]'; borderClass = 'border-purple-500/20'; shadowClass = 'shadow-[0_0_15px_rgba(168,85,247,0.1)]'; }
+                if(idAbaDestino === 'aba_mixer') { colorClass = 'text-amber-400 drop-shadow-[0_0_5px_rgba(245,158,11,0.8)]'; borderClass = 'border-amber-500/20'; shadowClass = 'shadow-[0_0_15px_rgba(245,158,11,0.1)]'; }
+                if(idAbaDestino === 'aba_seo') { colorClass = 'text-blue-400 drop-shadow-[0_0_5px_rgba(96,165,250,0.8)]'; borderClass = 'border-blue-500/20'; shadowClass = 'shadow-[0_0_15px_rgba(96,165,250,0.1)]'; }
+                if(idAbaDestino === 'aba_thumb') { colorClass = 'text-pink-400 drop-shadow-[0_0_5px_rgba(236,72,153,0.8)]'; borderClass = 'border-pink-500/20'; shadowClass = 'shadow-[0_0_15px_rgba(236,72,153,0.1)]'; }
+                if(idAbaDestino === 'aba_legends') { colorClass = 'text-cyan-400 drop-shadow-[0_0_5px_rgba(34,211,238,0.8)]'; borderClass = 'border-cyan-500/20'; shadowClass = 'shadow-[0_0_15px_rgba(34,211,238,0.1)]'; }
+                
+                btnClicado.className = `menu-btn w-full flex items-center gap-3 px-3 py-2.5 text-white bg-zinc-800/80 rounded-lg ${shadowClass} border ${borderClass} text-left text-sm relative z-10 overflow-hidden`;
+                btnClicado.querySelector('i').className += ' ' + colorClass;
+            }
+        }
+
+        // ==========================================
+        // AUDIO MIXER PRO
+        // ==========================================
+        function mostrarNomeMixer(event, idNome, idIcone) {
+            const arquivo = event.target.files[0];
+            if(arquivo) {
+                document.getElementById(idNome).innerText = arquivo.name;
+                document.getElementById(idIcone).className = "fa-solid fa-file-audio text-3xl text-amber-400 mb-2 drop-shadow-[0_0_8px_rgba(245,158,11,0.6)] animate-pulse";
+                if(idNome === 'nome_mixer_voz') arquivoVozMixer = arquivo;
+                if(idNome === 'nome_mixer_bg') arquivoBgMixer = arquivo;
+            }
+        }
+
+        function aplicarPresetMixer() {
+            const preset = document.getElementById('mixer_preset').value;
+            if(preset === "manual") return;
+            if(preset === "narrador_dark") {
+                document.getElementById('mixer_vol_voz').value = 0; document.getElementById('lbl_mixer_vol_voz').innerText = "0";
+                document.getElementById('mixer_vol_bg').value = -18; document.getElementById('lbl_mixer_vol_bg').innerText = "-18";
+                document.getElementById('mixer_ducking').checked = true;
+                document.getElementById('mixer_duck_amount').value = -14; document.getElementById('lbl_mixer_duck_amount').innerText = "-14";
+                document.getElementById('mixer_eq_bass').value = 3; document.getElementById('lbl_eq_bass').innerText = "3";
+                document.getElementById('mixer_eq_treble').value = 2; document.getElementById('lbl_eq_treble').innerText = "2";
+                document.getElementById('mixer_compressor').checked = true;
+                document.getElementById('mixer_comp_th').value = -18; document.getElementById('lbl_comp_th').innerText = "-18";
+                document.getElementById('mixer_comp_ratio').value = 4; document.getElementById('lbl_comp_ratio').innerText = "4.0";
+                document.getElementById('mixer_comp_makeup').value = 4; document.getElementById('lbl_comp_makeup').innerText = "4";
+                document.getElementById('mixer_limiter_ceil').value = -1; document.getElementById('lbl_limiter_ceil').innerText = "-1.0";
+            } else if(preset === "podcast") {
+                document.getElementById('mixer_vol_voz').value = 0; document.getElementById('lbl_mixer_vol_voz').innerText = "0";
+                document.getElementById('mixer_vol_bg').value = -24; document.getElementById('lbl_mixer_vol_bg').innerText = "-24";
+                document.getElementById('mixer_ducking').checked = true;
+                document.getElementById('mixer_duck_amount').value = -12; document.getElementById('lbl_mixer_duck_amount').innerText = "-12";
+                document.getElementById('mixer_eq_bass').value = 1; document.getElementById('lbl_eq_bass').innerText = "1";
+                document.getElementById('mixer_eq_treble').value = 1; document.getElementById('lbl_eq_treble').innerText = "1";
+                document.getElementById('mixer_compressor').checked = true;
+                document.getElementById('mixer_comp_th').value = -20; document.getElementById('lbl_comp_th').innerText = "-20";
+                document.getElementById('mixer_comp_ratio').value = 3; document.getElementById('lbl_comp_ratio').innerText = "3.0";
+                document.getElementById('mixer_comp_makeup').value = 2; document.getElementById('lbl_comp_makeup').innerText = "2";
+                document.getElementById('mixer_limiter_ceil').value = -2; document.getElementById('lbl_limiter_ceil').innerText = "-2.0";
+            }
+        }
+
+        async function chamarAudioMixer() {
+            const btn = document.getElementById('btn_gerar_mixer');
+            const txtBtn = document.getElementById('txt_btn_mixer');
+            const container = document.getElementById('mixer_resultados_container');
+            
+            if(!arquivoVozMixer) return alert("Por favor, selecione o arquivo da Voz.");
+            if(!arquivoBgMixer) return alert("Por favor, selecione o arquivo de Música de Fundo.");
+
+            btn.classList.add('opacity-70', 'cursor-not-allowed');
+            txtBtn.innerHTML = `Mixando... <i class="fa-solid fa-circle-notch fa-spin ml-1"></i>`;
+            
+            container.classList.remove('hidden');
+            container.innerHTML = `<div class="flex flex-col items-center justify-center py-5"><p class="text-sm font-bold text-amber-500 animate-pulse">O estúdio neural está processando o áudio...</p></div>`;
+
+            const formData = new FormData();
+            formData.append("voice_file", arquivoVozMixer);
+            formData.append("bg_file", arquivoBgMixer);
+            formData.append("voice_vol", document.getElementById('mixer_vol_voz').value);
+            formData.append("bg_vol", document.getElementById('mixer_vol_bg').value);
+            formData.append("ducking", document.getElementById('mixer_ducking').checked);
+            formData.append("duck_amount", document.getElementById('mixer_duck_amount').value);
+            formData.append("fade_in", document.getElementById('mixer_fade_in').value);
+            formData.append("fade_out", document.getElementById('mixer_fade_out').value);
+            formData.append("trim_silence", document.getElementById('mixer_trim').checked);
+            formData.append("trim_pad", "80");
+            formData.append("compressor", document.getElementById('mixer_compressor').checked);
+            formData.append("comp_th", document.getElementById('mixer_comp_th').value);
+            formData.append("comp_ratio", document.getElementById('mixer_comp_ratio').value);
+            formData.append("comp_makeup", document.getElementById('mixer_comp_makeup').value);
+            formData.append("limiter", "true");
+            formData.append("limiter_ceil", document.getElementById('mixer_limiter_ceil').value);
+            formData.append("eq_bass", document.getElementById('mixer_eq_bass').value);
+            formData.append("eq_treble", document.getElementById('mixer_eq_treble').value);
+
+            try {
+                const res = await fetch("https://tts.zappclube.com.br/audio_mixer", { method: 'POST', body: formData });
+                const dados = await res.json();
+                if (dados.status === "erro") throw new Error(dados.mensagem);
+
+                container.innerHTML = `
+                    <div class="flex flex-col items-center w-full">
+                        <div class="flex items-center gap-2 mb-4"><i class="fa-solid fa-circle-check text-xl text-amber-500 drop-shadow-[0_0_8px_rgba(245,158,11,0.8)]"></i><p class="text-sm font-bold text-amber-500">Masterização Concluída!</p></div>
+                        <audio id="player_mixer_final" controls class="w-full h-12 outline-none mb-4 bg-zinc-900 rounded-lg shadow-inner"></audio>
+                        <button onclick="baixarAudioMixado('${dados.audio_base64}')" class="w-full bg-[#121214] hover:bg-amber-600 text-amber-500 hover:text-white font-bold py-3 px-4 rounded-lg border border-amber-500/30 transition-colors flex items-center justify-center gap-2 shadow-[0_0_10px_rgba(245,158,11,0.1)] group relative z-10">
+                            <i class="fa-solid fa-download group-hover:scale-110 transition-transform"></i> Baixar Áudio Final (.WAV)
+                        </button>
+                    </div>
+                `;
+                document.getElementById('player_mixer_final').src = "data:audio/wav;base64," + dados.audio_base64;
+
+            } catch (error) {
+                container.innerHTML = `<p class="text-red-400 text-sm p-3 font-bold"><i class="fa-solid fa-triangle-exclamation"></i> Erro do Servidor: ${error.message}</p>`;
+            } finally {
+                btn.classList.remove('opacity-70', 'cursor-not-allowed');
+                txtBtn.innerHTML = "Iniciar Masterização (10 coins)";
+            }
+        }
+
+        function baixarAudioMixado(base64) {
+            const link = document.createElement('a');
+            link.href = "data:audio/wav;base64," + base64;
+            link.download = `Audio_Masterizado_DarkCreator_${new Date().getTime()}.wav`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // ==========================================
+        // OUTRAS MÁQUINAS 
+        // ==========================================
+        function trocarFonteMiner() {
+            const fonte = document.getElementById('miner_fonte').value;
+            if (fonte === 'reddit') {
+                document.getElementById('campos_reddit').classList.remove('hidden');
+                document.getElementById('campos_geral').classList.add('hidden');
+            } else {
+                document.getElementById('campos_reddit').classList.add('hidden');
+                document.getElementById('campos_geral').classList.remove('hidden');
+                let placeholder = "Digite o que deseja buscar na rede...";
+                let labelText = "Termo de Busca (Deep Web)";
+                
+                if(fonte === 'wiki') {
+                    placeholder = "Ex: Fatos assustadores, Dom Pedro I...";
+                    labelText = "Tópico (Wikipedia)";
+                } else if(fonte === 'news') {
+                    placeholder = "Ex: Casos criminais, Descobertas científicas...";
+                    labelText = "Assunto (Google News)";
+                }
+                
+                document.getElementById('miner_query_geral').placeholder = placeholder;
+                document.getElementById('lbl_miner_query_geral').innerText = labelText;
+                document.getElementById('box_traduzir_web').style.display = (fonte === 'wiki' || fonte === 'news') ? 'none' : 'flex';
+            }
+        }
+
+        function mostrarNomeAudio(event) {
+            const arquivo = event.target.files[0];
+            if(arquivo) {
+                document.getElementById('nome_arquivo_legends').innerText = arquivo.name;
+                document.getElementById('icone_upload_legends').className = "fa-solid fa-file-circle-check text-4xl text-cyan-400 mb-3 drop-shadow-[0_0_8px_rgba(34,211,238,0.6)] animate-pulse";
+            }
+        }
+
+        function lerArquivoSRT(event, targetId) {
+            const arquivo = event.target.files[0];
+            if (!arquivo) return;
+            const leitor = new FileReader();
+            leitor.onload = function(e) { 
+                document.getElementById(targetId).value = e.target.result; 
+                if(targetId === 'paraphraser_conteudo') contarPalavras('paraphraser_conteudo', 'contador_palavras_in');
+            };
+            leitor.readAsText(arquivo);
+        }
+
+        function contarPalavras(textAreaId, contadorId) {
+            const texto = document.getElementById(textAreaId).value.trim();
+            const palavras = texto === "" ? 0 : texto.split(/\s+/).length;
+            document.getElementById(contadorId).innerText = `${palavras} palavras`;
+        }
+
+        function enviarMinerParaParaphraser(btnElement) {
+            const card = btnElement.closest('.miner-card');
+            const titulo = card.querySelector('h4').innerText;
+            const texto = card.querySelector('.miner-texto').innerText;
+            document.getElementById('paraphraser_conteudo').value = `TÍTULO ORIGINAL: ${titulo}\n\n${texto}`;
+            contarPalavras('paraphraser_conteudo', 'contador_palavras_in');
+            document.getElementById('btn_menu_reescritor').click();
+        }
+
+        function enviarLegendsParaParaphraser() {
+            const texto = document.getElementById('legends_txt_resultado').value;
+            if(!texto || texto.trim() === "") return alert("Transcreva um áudio primeiro!");
+            document.getElementById('paraphraser_conteudo').value = texto;
+            contarPalavras('paraphraser_conteudo', 'contador_palavras_in');
+            document.getElementById('btn_menu_reescritor').click();
+        }
+
+        function enviarParaScriptForge(index) {
+            const ideia = ideiasGlobais[index];
+            const textoMontado = `TÍTULO: ${ideia.titulo}\nGANCHO: ${ideia.gancho}\nRESUMO: ${ideia.resumo}`;
+            document.getElementById('script_ideia_base').value = textoMontado;
+            contarPalavras('script_ideia_base', 'contador_script_in');
+            document.getElementById('btn_menu_script').click(); 
+        }
+
+        function enviarScriptParaVoice() {
+            const roteiroPronto = document.getElementById('script_final_editavel').value;
+            if(!roteiroPronto || roteiroPronto.trim() === "") return alert("Aviso: O roteiro está vazio!"); 
+            document.getElementById('texto_voz').value = roteiroPronto;
+            document.getElementById('btn_menu_voice').click(); 
+        }
+
+        function enviarParaphraserParaVoice() {
+            const textoPronto = document.getElementById('paraphraser_resultado').value;
+            if(!textoPronto || textoPronto.trim() === "") return alert("Aviso: O texto está vazio!"); 
+            document.getElementById('texto_voz').value = textoPronto;
+            document.getElementById('btn_menu_voice').click(); 
+        }
+
+        function baixarTXT(btnElement, titulo) {
+            const card = btnElement.closest('.miner-card');
+            const texto = card.querySelector('.miner-texto').innerText;
+            const blob = new Blob([texto], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Miner_${titulo.substring(0, 20).replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().getTime()}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function baixarTXTLegends() {
+            const texto = document.getElementById('legends_txt_resultado').value;
+            if(!texto || texto.trim() === "") return alert("Transcreva um áudio primeiro!");
+            const blob = new Blob([texto], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Transcricao_Bruta_${new Date().getTime()}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function baixarSRTLegends() {
+            const srt = document.getElementById('legends_srt_resultado').value;
+            if(!srt || srt.trim() === "") return alert("Transcreva um áudio primeiro!");
+            const blob = new Blob([srt], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Legenda_Whisper_${new Date().getTime()}.srt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function baixarTXTSEO() {
+            const textoSeo = document.getElementById('seo_resultado').value;
+            if(!textoSeo || textoSeo.trim() === "") return alert("Gere o SEO primeiro antes de baixar!"); 
+            const blob = new Blob([textoSeo], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `SEO_Otimizado_${new Date().getTime()}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        function baixarSRT() {
+            if(!srtGlobal) return alert("Nenhuma legenda disponível para download.");
+            const blob = new Blob([srtGlobal], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Legenda_DarkCreator_${new Date().getTime()}.srt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        async function iniciarMineracao() {
+            const btn = document.getElementById('btn_iniciar_miner');
+            const txtBtn = document.getElementById('txt_btn_miner');
+            const container = document.getElementById('miner_resultados_container');
+            const fonte = document.getElementById('miner_fonte').value;
+
+            btn.classList.add('opacity-70', 'cursor-not-allowed');
+            txtBtn.innerHTML = `Vascunhando a Web... <i class="fa-solid fa-circle-notch fa-spin ml-1"></i>`;
+            container.innerHTML = `
+                <div class="flex flex-col items-center justify-center h-full text-center py-20 loader-pulse">
+                    <div class="flex gap-2 mb-4">
+                        <div class="w-4 h-4 bg-indigo-500 rounded-full"></div>
+                        <div class="w-4 h-4 bg-indigo-500 rounded-full"></div>
+                        <div class="w-4 h-4 bg-indigo-500 rounded-full"></div>
+                    </div>
+                    <h3 class="text-sm font-bold text-indigo-400">Extraindo dados da nuvem...</h3>
+                    <p class="text-xs text-zinc-500 mt-2">Pode levar alguns segundos se a busca for profunda.</p>
+                </div>
+            `;
+
+            let url = "https://tts.zappclube.com.br/miner/" + fonte;
+            let payload = {};
+
+            if (fonte === 'reddit') {
+                payload = {
+                    sub: document.getElementById('miner_sub').value,
+                    query: document.getElementById('miner_query_reddit').value,
+                    min_words: parseInt(document.getElementById('miner_words').value) || 100,
+                    min_score: parseInt(document.getElementById('miner_score').value) || 10,
+                    sem_atualizacao: document.getElementById('miner_sem_atualizacao').checked
+                };
+            } else if (fonte === 'web') {
+                payload = {
+                    query: document.getElementById('miner_query_geral').value,
+                    traduzir: document.getElementById('miner_traduzir_web').checked
+                };
+            } else if (fonte === 'wiki' || fonte === 'news') {
+                payload = { query: document.getElementById('miner_query_geral').value };
+            }
+
+            try {
+                const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                const dados = await res.json();
+                
+                if (dados.status === "erro") throw new Error(dados.mensagem);
+                if (!dados.data || dados.data.length === 0) throw new Error("Nenhum resultado profundo encontrado para essa busca.");
+
+                container.innerHTML = ''; 
+
+                dados.data.forEach((item, index) => {
+                    container.innerHTML += `
+                        <div class="miner-card bg-[#121214] border border-zinc-800/80 rounded-xl p-5 hover:border-indigo-500/50 transition-colors relative group shadow-inner mb-4">
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider flex items-center gap-1">
+                                    <i class="fa-solid fa-satellite-dish"></i> ${item.fonte}
+                                </span>
+                                <span class="text-xs text-zinc-500 font-bold"><i class="fa-solid fa-align-left mr-1"></i> ${item.palavras} palavras</span>
+                            </div>
+                            <h4 class="text-white font-bold text-lg mb-2 pr-4 leading-tight group-hover:text-indigo-300 transition-colors">${item.titulo}</h4>
+                            <p class="miner-texto text-sm text-zinc-400 line-clamp-3 leading-relaxed mb-4">${item.texto}</p>
+                            
+                            <div class="flex items-center gap-3 border-t border-zinc-800/80 pt-4 relative z-10">
+                                <button onclick="enviarMinerParaParaphraser(this)" class="flex-1 bg-pink-600 hover:bg-pink-500 text-white text-xs font-bold py-2.5 px-3 rounded-lg shadow-[0_0_10px_rgba(219,39,119,0.3)] transition-colors flex items-center justify-center gap-2 group-btn">
+                                    <i class="fa-solid fa-wand-magic-sparkles group-hover:rotate-12 transition-transform"></i> Transmutar
+                                </button>
+                                <button onclick="baixarTXT(this, '${item.titulo}')" class="bg-[#1a1a1e] hover:bg-zinc-700 text-zinc-300 text-xs font-bold py-2.5 px-4 rounded-lg border border-zinc-700 transition-colors flex items-center justify-center gap-2 group-btn">
+                                    <i class="fa-solid fa-download group-hover:-translate-y-0.5 transition-transform"></i> .TXT
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full text-center py-20 relative z-10">
+                        <i class="fa-solid fa-triangle-exclamation text-3xl text-red-500 mb-3 drop-shadow-[0_0_10px_rgba(239,68,68,0.5)]"></i>
+                        <h3 class="text-sm font-bold text-red-400">Erro na Mineração</h3>
+                        <p class="text-xs text-zinc-500 mt-1">${error.message}</p>
+                    </div>
+                `;
+            } finally {
+                btn.classList.remove('opacity-70', 'cursor-not-allowed');
+                txtBtn.innerHTML = "Iniciar Varredura";
+            }
+        }
+
+        async function chamarGeradorIdeias() {
+            const btn = document.getElementById('btn_gerar_ideias');
+            const container = document.getElementById('container_ideias');
+            const tema = document.getElementById('ideia_tema').value;
+            const publico = document.getElementById('ideia_publico').value || "Geral";
+            const tom = document.getElementById('ideia_tom').value;
+
+            if(!tema) return alert("Por favor, preencha o Nicho ou Tema."); 
+
+            btn.classList.add('opacity-70', 'cursor-not-allowed');
+            container.innerHTML = `<div class="flex flex-col items-center justify-center py-10 w-full h-full relative z-10"><i class="fa-solid fa-brain fa-fade text-4xl text-yellow-500 mb-4"></i><p class="text-zinc-400 text-sm animate-pulse">Nossa IA está analisando tendências e elaborando roteiros magnéticos...</p></div>`;
+
+            const WEBHOOK_IDEIAS = "https://n8n.zappclube.com.br/webhook-test/gerador-ideias";
+
+            try {
+                const res = await fetch(WEBHOOK_IDEIAS, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tema, publico, tom }) });
+                const dadosN8N = await res.json();
+                const conteudoLimpo = JSON.parse(dadosN8N.choices[0].message.content);
+                
+                ideiasGlobais = conteudoLimpo.ideias; 
+                container.innerHTML = '<div class="w-full text-left space-y-4 relative z-10" id="lista_ideias_geradas"></div>';
+                const listaDiv = document.getElementById('lista_ideias_geradas');
+
+                ideiasGlobais.forEach((ideia, index) => {
+                    listaDiv.innerHTML += `
+                        <div class="bg-[#121214] border border-yellow-500/30 rounded-xl p-5 hover:border-yellow-500/60 transition-colors shadow-inner">
+                            <div class="flex items-center justify-between mb-3 border-b border-zinc-800 pb-2">
+                                <span class="bg-yellow-500/20 text-yellow-400 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Ideia ${index + 1}</span>
+                                <button onclick="enviarParaScriptForge(${index})" class="text-orange-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-wider flex items-center gap-2 bg-orange-500/10 px-3 py-1.5 rounded-lg border border-orange-500/20 hover:bg-orange-600"><i class="fa-solid fa-fire"></i> Script Forge</button>
+                            </div>
+                            <h3 class="text-white font-bold text-lg mb-2 group-hover:text-yellow-300 transition-colors">${ideia.titulo}</h3>
+                            <p class="text-sm text-zinc-300 mb-2 border-l-2 border-yellow-500/50 pl-3"><strong class="text-yellow-500/80">Gancho:</strong> ${ideia.gancho}</p>
+                            <p class="text-sm text-zinc-400 leading-relaxed"><strong class="text-yellow-500/80">Visão Geral:</strong> ${ideia.resumo}</p>
+                        </div>`;
+                });
+            } catch (error) { container.innerHTML = `<p class="text-red-400 relative z-10">Erro ao comunicar com o servidor neural: ${error.message}</p>`; } 
+            finally { btn.classList.remove('opacity-70', 'cursor-not-allowed'); }
+        }
+
+        async function chamarScriptForge() {
+            const btn = document.getElementById('btn_gerar_script');
+            const ideiaBase = document.getElementById('script_ideia_base').value;
+            const canal = document.getElementById('script_canal').value || "Canal Não Informado";
+            const formato = document.getElementById('script_formato').value;
+            const tamanho = document.getElementById('script_tamanho').value || "Duração livre";
+            const instrucoes = document.getElementById('script_instrucoes').value || "Nenhuma instrução extra.";
+            const tom = document.getElementById('ideia_tom') ? document.getElementById('ideia_tom').value : "Sombrio e Misterioso"; 
+
+            if(!ideiaBase.trim()) return alert("Você precisa de uma Ideia Base para gerar um roteiro."); 
+
+            btn.classList.add('opacity-70', 'cursor-not-allowed');
+            document.getElementById('script_final_editavel').value = "Nossos motores de inteligência artificial estão forjando o seu roteiro otimizado. Isso pode levar alguns segundos...\n\nAguarde o processamento neural...";
+
+            const WEBHOOK_SCRIPT = "https://n8n.zappclube.com.br/webhook-test/gerador-script";
+
+            try {
+                const res = await fetch(WEBHOOK_SCRIPT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ideia_base: ideiaBase, canal: canal, formato: formato, tamanho: tamanho, tom: tom, instrucoes: instrucoes })
+                });
+                const dadosN8N = await res.json();
+                document.getElementById('script_final_editavel').value = dadosN8N.roteiro;
+                contarPalavras('script_final_editavel', 'contador_script_out');
+            } catch (error) { document.getElementById('script_final_editavel').value = "Erro na conexão com os motores neurais: " + error.message; } 
+            finally { btn.classList.remove('opacity-70', 'cursor-not-allowed'); }
+        }
+
+        async function chamarMetaSEO() {
+            const btn = document.getElementById('btn_gerar_seo');
+            const conteudo = document.getElementById('seo_conteudo').value;
+            const keyword = document.getElementById('seo_keyword').value || "Geral";
+            const canal = document.getElementById('seo_canal').value || "Meu Canal";
+
+            if(!conteudo.trim()) return alert("Por favor, cole um Roteiro ou suba o arquivo .SRT para que a IA possa analisar.");
+
+            btn.classList.add('opacity-70', 'cursor-not-allowed');
+            document.getElementById('seo_resultado').value = "A IA está lendo a história e arquitetando o SEO perfeito para o Algoritmo...\n\nAguarde...";
+
+            const WEBHOOK_SEO = "https://n8n.zappclube.com.br/webhook-test/gerador-seo";
+
+            try {
+                const res = await fetch(WEBHOOK_SEO, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ conteudo: conteudo, keyword: keyword, canal: canal })
+                });
+                const dadosN8N = await res.json();
+                document.getElementById('seo_resultado').value = dadosN8N.seo_result;
+            } catch (error) { document.getElementById('seo_resultado').value = "Erro na conexão com os motores neurais: " + error.message; } 
+            finally { btn.classList.remove('opacity-70', 'cursor-not-allowed'); }
+        }
+
+        async function chamarParaphraser() {
+            const btn = document.getElementById('btn_gerar_paraphraser');
+            const btnTexto = document.getElementById('txt_btn_transmutar');
+            const idioma = document.getElementById('paraphraser_idioma').value;
+            let conteudo = document.getElementById('paraphraser_conteudo').value;
+
+            if(!conteudo.trim()) return alert("Por favor, cole um texto ou arquivo para transmutar.");
+
+            btn.classList.add('opacity-70', 'cursor-not-allowed');
+            btnTexto.innerText = "Transmutando Texto...";
+            document.getElementById('paraphraser_resultado').value = "Traduzindo e reescrevendo o roteiro para garantir 0% de plágio...\n\nAguarde o processamento neural...";
+
+            const WEBHOOK_PARAPHRASER = "https://n8n.zappclube.com.br/webhook-test/gerador-paraphraser";
+
+            try {
+                const res = await fetch(WEBHOOK_PARAPHRASER, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ texto: conteudo, idioma: idioma })
+                });
+
+                const dadosN8N = await res.json();
+                document.getElementById('paraphraser_resultado').value = dadosN8N.texto_transmutado;
+                contarPalavras('paraphraser_resultado', 'contador_palavras_out');
+            } catch (error) {
+                document.getElementById('paraphraser_resultado').value = "Erro na conexão com os motores neurais: " + error.message;
+            } finally {
+                btn.classList.remove('opacity-70', 'cursor-not-allowed');
+                btnTexto.innerText = "Transmutar (1 coin)";
+            }
+        }
+
+        async function chamarThumbMaker() {
+            const btn = document.getElementById('btn_gerar_thumb');
+            const txtBtn = document.getElementById('txt_btn_thumb');
+            const container = document.getElementById('container_thumbs');
+            
+            const titulo = document.getElementById('thumb_titulo').value;
+            const roteiro = document.getElementById('thumb_roteiro').value;
+            const estilo = document.getElementById('thumb_estilo').value;
+            const texto_arte = document.getElementById('thumb_texto_arte').value || "SEM TEXTO";
+
+            if(!titulo.trim() || !roteiro.trim()) return alert("Por favor, preencha o Título e cole o Roteiro para o Diretor de Arte ler.");
+
+            btn.classList.add('opacity-70', 'cursor-not-allowed');
+            txtBtn.innerHTML = `Lendo Roteiro e Criando Arte... <i class="fa-solid fa-circle-notch fa-spin ml-1"></i>`;
+            
+            container.innerHTML = `
+                <div class="flex flex-col items-center justify-center h-full text-center py-20 loader-pulse">
+                    <div class="flex gap-2 mb-4">
+                        <div class="w-4 h-4 bg-pink-500 rounded-full"></div>
+                        <div class="w-4 h-4 bg-pink-500 rounded-full"></div>
+                        <div class="w-4 h-4 bg-pink-500 rounded-full"></div>
+                    </div>
+                    <h3 class="text-sm font-bold text-pink-400">O Diretor de Arte está analisando a história...</h3>
+                </div>
+            `;
+
+            const WEBHOOK_THUMB = "https://n8n.zappclube.com.br/webhook-test/gerador-thumb";
+
+            try {
+                const res = await fetch(WEBHOOK_THUMB, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ titulo: titulo, roteiro: roteiro, estilo: estilo, texto_arte: texto_arte })
+                });
+                
+                const dadosStr = await res.json();
+                let dados = typeof dadosStr === 'string' ? JSON.parse(dadosStr.replace(/```json/g, '').replace(/```/g, '').trim()) : dadosStr;
+
+                container.innerHTML = ''; 
+
+                if(dados.conflito_principal) {
+                    container.innerHTML += `
+                        <div class="mb-5 p-4 bg-[#121214] rounded-lg border border-pink-500/30 shadow-inner">
+                            <h3 class="text-xs font-bold text-pink-400 mb-2 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-crosshairs"></i> Conflito Principal (Âncora)</h3>
+                            <p class="text-sm text-zinc-300 italic">"${dados.conflito_principal}"</p>
+                        </div>
+                    `;
+                }
+
+                if(dados.capas && Array.isArray(dados.capas)) {
+                    dados.capas.forEach((capa, index) => {
+                        container.innerHTML += `
+                            <div class="bg-[#121214] border border-zinc-800/80 rounded-xl p-5 hover:border-pink-500/50 transition-colors mb-4 shadow-inner">
+                                <div class="flex items-center justify-between mb-3 border-b border-zinc-800 pb-2">
+                                    <span class="bg-pink-500/20 text-pink-400 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Ideia ${index + 1}: ${capa.estrategia}</span>
+                                </div>
+                                
+                                <p class="text-xs text-zinc-400 mb-4 leading-relaxed border-l-2 border-zinc-700 pl-3 italic">"${capa.psicologia}"</p>
+                                
+                                <div>
+                                    <div class="flex items-center justify-between mb-1">
+                                        <span class="block text-[10px] font-bold text-zinc-500 uppercase">Prompt Gringo (Midjourney/Flux):</span>
+                                        <button onclick="copiarTexto('${btoa(unescape(encodeURIComponent(capa.prompt_gringo)))}', this)" class="text-pink-500 hover:text-white transition-colors text-xs flex items-center gap-1"><i class="fa-solid fa-copy"></i> Copiar</button>
+                                    </div>
+                                    <textarea class="w-full bg-[#09090b] border border-zinc-700/80 rounded px-3 py-2 text-emerald-400/90 text-xs font-mono resize-none h-20 shadow-inner" readonly>${capa.prompt_gringo}</textarea>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    container.innerHTML += `<p class="text-zinc-400 text-center py-10">Nenhuma capa retornada pela IA.</p>`;
+                }
+
+            } catch (error) {
+                container.innerHTML = `<p class="text-red-400 text-center py-10">Erro ao comunicar com a IA Visual: ${error.message}</p>`;
+            } finally {
+                btn.classList.remove('opacity-70', 'cursor-not-allowed');
+                txtBtn.innerHTML = "Gerar Direção de Arte (5 coins)";
+            }
+        }
+
+        function copiarTexto(base64Str, btnElement) {
+            const texto = decodeURIComponent(escape(atob(base64Str)));
+            navigator.clipboard.writeText(texto).then(() => {
+                const originalText = btnElement.innerHTML;
+                btnElement.innerHTML = `<i class="fa-solid fa-check"></i> Copiado!`;
+                btnElement.classList.replace('text-pink-500', 'text-emerald-400');
+                setTimeout(() => {
+                    btnElement.innerHTML = originalText;
+                    btnElement.classList.replace('text-emerald-400', 'text-pink-500');
+                }, 2000);
+            });
+        }
+
+        // ==========================================
+        // GEN LEGENDS (NOVO MOTOR CONECTADO)
+        // ==========================================
+        async function chamarGenLegends() {
+            const btn = document.getElementById('btn_gerar_legends');
+            const txtBtn = document.getElementById('txt_btn_legends');
+            const arquivoInput = document.getElementById('arquivo_audio_legends');
+            const idioma = document.getElementById('legends_idioma').value;
+            const modelo = document.getElementById('legends_modelo').value;
+            const txtOut = document.getElementById('legends_txt_resultado');
+            const srtOut = document.getElementById('legends_srt_resultado');
+
+            if (!arquivoInput.files || arquivoInput.files.length === 0) {
+                return alert("Por favor, selecione ou arraste um arquivo de áudio/vídeo primeiro.");
+            }
+
+            const arquivo = arquivoInput.files[0];
+
+            btn.classList.add('opacity-70', 'cursor-not-allowed');
+            txtBtn.innerHTML = `Transcrevendo na Nuvem... <i class="fa-solid fa-circle-notch fa-spin ml-1"></i>`;
+            txtOut.value = "A IA Whisper está escutando o seu áudio e processando as legendas. Isso pode levar alguns segundos dependendo do tamanho do arquivo...";
+            srtOut.value = "Aguardando sincronização de tempo...";
+
+            const formData = new FormData();
+            formData.append("file", arquivo);
+            formData.append("language", idioma);
+            formData.append("model_size", modelo);
+
+            try {
+                const res = await fetch("https://tts.zappclube.com.br/gen_legends", {
+                    method: 'POST',
+                    body: formData
+                });
+                const dados = await res.json();
+
+                if (dados.status === "erro") {
+                    throw new Error(dados.mensagem);
+                }
+
+                txtOut.value = dados.txt;
+                srtOut.value = dados.srt;
+                srtGlobal = dados.srt; // Atualiza para o botão de download baixar esse SRT caso queira.
+
+            } catch (error) {
+                txtOut.value = "Erro de comunicação com o servidor neural: " + error.message;
+                srtOut.value = "Falha no processamento.";
+            } finally {
+                btn.classList.remove('opacity-70', 'cursor-not-allowed');
+                txtBtn.innerHTML = "Transcrever Áudio (20 coins)";
+            }
+        }
+
+        function renderizarListaVozes() {
+            const container = document.getElementById('lista_vozes');
+            container.innerHTML = '';
+            vozesData.forEach(v => {
+                let parts = v.shortName.split('-'); 
+                let locale = parts[0] + '-' + parts[1]; 
+                let actorName = parts[2].replace('Neural', ''); 
+                let nomeLimpo = `${actorName} (${locale})`;
+
+                let generoReal = "Neutro";
+                if(v.gender === "Male") generoReal = "Masculino";
+                if(v.gender === "Female") generoReal = "Feminino";
+
+                let badgeClass = "bg-purple-500/10 text-purple-400 border border-purple-500/20"; 
+                let iconUser = '<i class="fa-solid fa-robot text-purple-400"></i>';
+                if(generoReal === "Masculino") { badgeClass = "bg-blue-500/10 text-blue-400 border border-blue-500/20"; iconUser = '<i class="fa-solid fa-user-tie text-blue-400"></i>'; }
+                if(generoReal === "Feminino") { badgeClass = "bg-pink-500/10 text-pink-400 border border-pink-500/20"; iconUser = '<i class="fa-solid fa-user text-pink-400"></i>'; }
+                
+                let cardClass = v.shortName === vozSelecionada ? "border-emerald-500 bg-emerald-500/5 shadow-[0_0_15px_rgba(16,185,129,0.15)]" : "border-zinc-800 bg-[#09090b] hover:border-purple-500/50 hover:bg-purple-500/5 shadow-inner";
+
+                container.innerHTML += `
+                    <div class="flex items-center justify-between p-3 rounded-xl border ${cardClass} cursor-pointer transition-all group relative z-10" onclick="selecionarVoz('${v.shortName}')">
+                        <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-[#121214] flex items-center justify-center border border-zinc-700/50 shadow-inner group-hover:scale-110 transition-transform">${iconUser}</div>
+                            <div><p class="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">${nomeLimpo}</p><span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${badgeClass} inline-block mt-0.5">${generoReal}</span></div>
+                        </div>
+                        <button class="w-9 h-9 rounded-full bg-[#121214] border border-zinc-700/50 flex items-center justify-center text-zinc-400 group-hover:bg-emerald-500 group-hover:text-white group-hover:border-emerald-400 group-hover:shadow-[0_0_10px_rgba(16,185,129,0.5)] transition-all hover:scale-110" onclick="tocarPreview(event, '${v.shortName}', '${actorName}')">
+                            <i id="play_icon_${v.shortName}" class="fa-solid fa-play text-xs ml-0.5"></i>
+                        </button>
+                    </div>`;
+            });
+        }
+
+        function selecionarVoz(shortName) { vozSelecionada = shortName; renderizarListaVozes(); }
+
+        async function tocarPreview(event, shortName, actorName) {
+            event.stopPropagation(); document.getElementById('player_preview').pause();
+            const icon = document.getElementById(`play_icon_${shortName}`); 
+            icon.className = "fa-solid fa-circle-notch fa-spin text-white"; 
+            try {
+                const res = await fetch(URL_API_DIRETA, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ texto: `Olá, eu sou a voz ${actorName}.`, voz: shortName, velocidade: 1.0, pitch: 0, volume: 0 }) });
+                const dados = await res.json();
+                if(dados.status === "erro") throw new Error(dados.mensagem);
+                document.getElementById('player_preview').src = "data:audio/mp3;base64," + dados.audio_base64; 
+                document.getElementById('player_preview').play();
+                document.getElementById('player_preview').onended = () => { icon.className = "fa-solid fa-play text-xs ml-0.5"; };
+            } catch (e) { icon.className = "fa-solid fa-play text-xs ml-0.5"; } 
+        }
+
+        async function gerarAudioCompleto() {
+            const btn = document.getElementById('btn_gerar_voz');
+            const textoVoz = document.getElementById('texto_voz').value;
+            const containerPlayer = document.getElementById('player_container');
+            
+            if(!textoVoz.trim()) return alert("Digite um texto primeiro.");
+
+            btn.classList.add('opacity-70', 'cursor-not-allowed');
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin text-emerald-400"></i> <span>Gravando na Nuvem...</span>`;
+            
+            containerPlayer.classList.remove('hidden');
+            containerPlayer.innerHTML = `
+                <div class="flex flex-col items-center justify-center py-5">
+                    <div class="flex gap-2 mb-3">
+                        <div class="w-3 h-3 bg-emerald-500 rounded-full animate-bounce"></div>
+                        <div class="w-3 h-3 bg-emerald-500 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                        <div class="w-3 h-3 bg-emerald-500 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    </div>
+                    <p class="text-sm font-bold text-emerald-400 animate-pulse">A IA está gravando a sua locução...</p>
+                </div>
+            `;
+
+            const payload = { texto: textoVoz, voz: vozSelecionada, velocidade: parseFloat(document.getElementById('velocidade').value), pitch: parseInt(document.getElementById('pitch').value), volume: 0 };
+
+            try {
+                const resposta = await fetch(URL_API_DIRETA, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                const dados = await resposta.json();
+                
+                if(dados.status === "erro") {
+                    containerPlayer.innerHTML = `<p class="text-red-400 text-sm p-3 font-bold"><i class="fa-solid fa-circle-xmark"></i> Erro do Servidor: ${dados.mensagem}</p>`;
+                    throw new Error(dados.mensagem);
+                }
+
+                if(dados.srt) srtGlobal = dados.srt;
+
+                containerPlayer.innerHTML = `
+                    <div class="flex items-center justify-between mb-4 w-full">
+                        <p class="text-xs text-emerald-400 font-bold uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-base drop-shadow-[0_0_5px_rgba(16,185,129,0.8)]"></i> Áudio Finalizado
+                        </p>
+                        ${dados.srt ? `<button onclick="baixarSRT()" class="text-xs bg-[#121214] hover:bg-emerald-600 text-zinc-300 hover:text-white px-3 py-1.5 rounded-lg flex items-center gap-2 transition-colors border border-zinc-700 hover:border-emerald-500 shadow-inner group"><i class="fa-solid fa-closed-captioning group-hover:scale-110 transition-transform"></i> Baixar .SRT</button>` : ''}
+                    </div>
+                    <audio id="player_principal" controls class="w-full h-12 outline-none bg-[#09090b] rounded-lg shadow-inner"></audio>
+                `;
+                
+                document.getElementById('player_principal').src = "data:audio/mp3;base64," + dados.audio_base64;
+                document.getElementById('player_principal').play();
+            } catch (e) { 
+                console.error(e);
+            } finally { 
+                btn.classList.remove('opacity-70', 'cursor-not-allowed');
+                btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> <span>Sintetizar Voz (380 coins)</span>`;
+            }
+        }
+    </script>
+</body>
+</html>
