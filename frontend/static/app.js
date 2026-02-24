@@ -1,6 +1,6 @@
 // GLOBALS
-const URL_API_VOZES = "https://suite.zappclube.com.br/vozes";
-const URL_API_DIRETA = "https://suite.zappclube.com.br/gerar_narracao";
+const URL_API_VOZES = "/vozes";
+const URL_API_DIRETA = "/gerar_narracao";
 let ideiasGlobais = []; 
 let srtGlobal = ""; 
 let vozSelecionada = "pt-BR-AntonioNeural"; 
