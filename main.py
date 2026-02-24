@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 
 from rotas.ai_script_forge import router as script_forge_router
+from rotas.voice_synth import router as voice_router
 
 app = FastAPI(
     title="Dark Creator Suit",
@@ -14,6 +15,7 @@ app = FastAPI(
 
 # 1) Rotas (cada ferramenta em um arquivo separado)
 app.include_router(script_forge_router)
+app.include_router(voice_router)
 
 # 2) Frontend estático
 BASE_DIR = Path(__file__).resolve().parent
