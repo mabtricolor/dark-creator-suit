@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 
 from rotas.ai_script_forge import router as script_forge_router
-from rotas.voice_synth import router as voice_router  # <-- agora TUDO está aqui (vozes + preview + gerar_narracao)
+from rotas.voice_synth import router as voice_router
 
 app = FastAPI(
     title="Dark Creator Suit",
@@ -34,4 +34,3 @@ def home():
 @app.get("/health")
 def health():
     return {"ok": True}
-    
