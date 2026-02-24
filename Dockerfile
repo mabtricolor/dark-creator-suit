@@ -2,10 +2,12 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+# ffmpeg é essencial para áudio (mixer e compatibilidade)
+RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg && rm -rf /var/lib/apt/lists/*
+
 COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# Copia o projeto todo (core/, rotas/, schemas/, prompts/, frontend/, main.py)
 COPY . /app
 
 EXPOSE 8000
