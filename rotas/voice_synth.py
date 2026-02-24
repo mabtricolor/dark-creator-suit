@@ -5,7 +5,10 @@ import json
 router = APIRouter(tags=["Voice Synth"])
 
 @router.get("/vozes")
-@router.get("/api/tts/vozes")  # alias para não quebrar o frontend
+@router.get("/api/tts/vozes")
+@router.get("/voices")
+@router.get("/api/voices")
+@router.get("/api/tts/voices")
 def listar_vozes():
     base_dir = Path(__file__).resolve().parent.parent
     voices_path = base_dir / "data" / "edge_voices.json"
