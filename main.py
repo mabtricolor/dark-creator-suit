@@ -5,7 +5,12 @@ from fastapi.responses import FileResponse
 
 from rotas.ai_script_forge import router as script_forge_router
 
-app = FastAPI(title="Dark Creator Suit")
+app = FastAPI(
+    title="Dark Creator Suit",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json",
+)
 
 # 1) Rotas (cada ferramenta em um arquivo separado)
 app.include_router(script_forge_router)
