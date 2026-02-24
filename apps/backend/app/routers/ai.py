@@ -1,19 +1,19 @@
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from .core.config import settings
-from .routers.ai import router as ai_router
+from fastapi import APIRouter
 
-app = FastAPI(title=settings.APP_NAME)
+from ..core.prompt_loader import load_prompt
+from ..core.llm_openai_compat import OpenAICompatClient
+from ..core.llm_gemini import GeminiClient
+from ..core.json_guard import enforce_json_model
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # depois a gente trava pro seu domínio
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+from ..schemas.ai import (
+    GenInsightsRequest, GenInsightsResponse,
+    ParaphraserRequest, ParaphraserResponse,
+    ScriptForgeRequest, ScriptForgeResponse,
+    MetaSEORequest, MetaSEOResponse,
+    ThumbMakerRequest, ThumbMakerResponse,
 )
 
-app.include_router(ai_router)
+router = APIRouter(prefix="/api/ai", tags=["AI"])
 
 
 @app.get("/health")
