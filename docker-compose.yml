@@ -1,7 +1,0 @@
-services:
-  backend:
-    build: ./apps/backend
-    container_name: dark-suite-backend
-    ports:
-      - "8000:8000"
-    restart: unless-stopped
