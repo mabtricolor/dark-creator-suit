@@ -1449,34 +1449,67 @@
         }
 
         function renderizarListaVozes() {
-            const container = document.getElementById('lista_vozes');
-            container.innerHTML = '';
-            vozesData.forEach(v => {
-                let parts = v.shortName.split('-'); 
-                let locale = parts[0] + '-' + parts[1]; 
-                let actorName = parts[2].replace('Neural', ''); 
-                let nomeLimpo = `${actorName} (${locale})`;
+        const container = document.getElementById('lista_vozes');
+        if (!container) return;
 
-                let generoReal = "Neutro";
-                if(v.gender === "Male") generoReal = "Masculino";
-                if(v.gender === "Female") generoReal = "Feminino";
+        container.innerHTML = '';
 
-                let badgeClass = "bg-purple-500/10 text-purple-400 border border-purple-500/20"; 
-                let iconUser = '<i class="fa-solid fa-robot text-purple-400"></i>';
-                if(generoReal === "Masculino") { badgeClass = "bg-blue-500/10 text-blue-400 border border-blue-500/20"; iconUser = '<i class="fa-solid fa-user-tie text-blue-400"></i>'; }
-                if(generoReal === "Feminino") { badgeClass = "bg-pink-500/10 text-pink-400 border border-pink-500/20"; iconUser = '<i class="fa-solid fa-user text-pink-400"></i>'; }
-                
-                let cardClass = v.shortName === vozSelecionada ? "border-emerald-500 bg-emerald-500/5 shadow-[0_0_15px_rgba(16,185,129,0.15)]" : "border-zinc-800 bg-[#09090b] hover:border-purple-500/50 hover:bg-purple-500/5 shadow-inner";
+        // BLINDAGEM: garantir array
+        if (!Array.isArray(vozesData)) vozesData = [];
 
-                container.innerHTML += `
-                    <div class="flex items-center justify-between p-3 rounded-xl border ${cardClass} cursor-pointer transition-all group relative z-10" onclick="selecionarVoz('${v.shortName}')">
-                        <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-[#121214] flex items-center justify-center border border-zinc-700/50 shadow-inner group-hover:scale-110 transition-transform">${iconUser}</div>
-                            <div><p class="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">${nomeLimpo}</p><span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${badgeClass} inline-block mt-0.5">${generoReal}</span></div>
+        if (vozesData.length === 0) {
+            container.innerHTML = `<div class="text-zinc-400 text-sm">Nenhuma voz encontrada.</div>`;
+            return;
+        }
+
+        vozesData.forEach(v => {
+            // Aceita qualquer formato (ShortName/shortName/Name/name)
+            const shortName = v.shortName || v.ShortName || v.Name || v.name || "unknown";
+            const genderRaw = v.gender || v.Gender || "";
+            const localeRaw = v.locale || v.Locale || "";
+
+            // Se não tiver ShortName, não tenta renderizar
+            if (!shortName || shortName === "unknown") return;
+
+            let parts = String(shortName).split('-');
+            let locale = localeRaw || (parts.length >= 2 ? `${parts[0]}-${parts[1]}` : "");
+            let actorName = parts.length >= 3 ? parts[2].replace('Neural', '') : shortName.replace('Neural', '');
+
+            let nomeLimpo = `${actorName} ${locale ? `(${locale})` : ""}`;
+
+            let generoReal = "Neutro";
+            if (genderRaw === "Male") generoReal = "Masculino";
+            if (genderRaw === "Female") generoReal = "Feminino";
+
+            let badgeClass = "bg-purple-500/10 text-purple-400 border border-purple-500/20";
+            let iconUser = '<i class="fa-solid fa-robot text-purple-400"></i>';
+            if (generoReal === "Masculino") { badgeClass = "bg-blue-500/10 text-blue-400 border border-blue-500/20"; iconUser = '<i class="fa-solid fa-user-tie text-blue-400"></i>'; }
+            if (generoReal === "Feminino") { badgeClass = "bg-pink-500/10 text-pink-400 border border-pink-500/20"; iconUser = '<i class="fa-solid fa-user text-pink-400"></i>'; }
+
+            let cardClass = shortName === vozSelecionada
+                ? "border-emerald-500 bg-emerald-500/5 shadow-[0_0_15px_rgba(16,185,129,0.15)]"
+                : "border-zinc-800 bg-[#09090b] hover:border-purple-500/50 hover:bg-purple-500/5 shadow-inner";
+
+            container.innerHTML += `
+                <div class="flex items-center justify-between p-3 rounded-xl border ${cardClass} cursor-pointer transition-all group relative z-10"
+                    onclick="selecionarVoz('${shortName}')">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-[#121214] flex items-center justify-center border border-zinc-700/50 shadow-inner group-hover:scale-110 transition-transform">
+                            ${iconUser}
                         </div>
-                        <button class="w-9 h-9 rounded-full bg-[#121214] border border-zinc-700/50 flex items-center justify-center text-zinc-400 group-hover:bg-emerald-500 group-hover:text-white group-hover:border-emerald-400 group-hover:shadow-[0_0_10px_rgba(16,185,129,0.5)] transition-all hover:scale-110" onclick="tocarPreview(event, '${v.shortName}', '${actorName}')">
-                            <i id="play_icon_${v.shortName}" class="fa-solid fa-play text-xs ml-0.5"></i>
-                        </button>
-                    </div>`;
+                        <div>
+                            <p class="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">${nomeLimpo}</p>
+                            <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${badgeClass} inline-block mt-0.5">${generoReal}</span>
+                        </div>
+                    </div>
+
+                    <button class="w-9 h-9 rounded-full bg-[#121214] border border-zinc-700/50 flex items-center justify-center text-zinc-400
+                                group-hover:bg-emerald-500 group-hover:text-white group-hover:border-emerald-400 group-hover:shadow-[0_0_10px_rgba(16,185,129,0.5)]
+                                transition-all hover:scale-110"
+                            onclick="tocarPreview(event, '${shortName}', '${actorName}')">
+                        <i id="play_icon_${shortName}" class="fa-solid fa-play text-xs ml-0.5"></i>
+                    </button>
+                </div>`;
             });
         }
 
